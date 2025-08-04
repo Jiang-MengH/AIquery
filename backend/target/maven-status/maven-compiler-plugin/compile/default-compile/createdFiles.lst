@@ -1,0 +1,10 @@
+com\example\keywordkb\repository\KeywordKnowledgeRepository.class
+com\example\keywordkb\entity\Keyword.class
+com\example\keywordkb\KeywordKbApplication.class
+com\example\keywordkb\repository\KeywordGroupRepository.class
+com\example\keywordkb\entity\KeywordGroup.class
+com\example\keywordkb\service\KeywordGroupService.class
+com\example\keywordkb\controller\KeywordGroupController.class
+com\example\keywordkb\service\impl\KeywordGroupServiceImpl.class
+com\example\keywordkb\entity\KeywordKnowledge.class
+com\example\keywordkb\repository\KeywordRepository.class

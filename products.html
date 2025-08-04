@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>商品知识库 - 福客AI客服助手</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .sidebar {
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+        .main-content {
+            margin-left: 250px;
+            transition: all 0.3s ease;
+        }
+        .nav-item {
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover {
+            background-color: #f3f4f6;
+        }
+        .nav-item.active {
+            background-color: #dbeafe;
+            color: #2563eb;
+            border-right: 3px solid #2563eb;
+        }
+        .sub-nav-item {
+            padding-left: 2rem;
+            font-size: 0.875rem;
+        }
+        .sub-nav-item.active {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 左侧导航栏 -->
+    <div class="sidebar fixed h-full bg-white shadow-lg z-50">
+        <!-- Logo区域 -->
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center">
+                <i class="fas fa-robot text-2xl text-blue-600 mr-3"></i>
+                <h1 class="text-xl font-bold text-gray-800">福客AI客服助手</h1>
+            </div>
+            <p class="text-sm text-gray-500 mt-1">训练语料库</p>
+        </div>
+        
+        <!-- 导航菜单 -->
+        <nav class="mt-6">
+            <div class="px-4 mb-4">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">主要功能</span>
+            </div>
+            
+            <a href="index.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-chart-bar mr-3"></i>
+                <span>数据统计</span>
+            </a>
+            
+            <a href="ai-evolution.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-brain mr-3"></i>
+                <span>AI智能进化</span>
+            </a>
+            
+            <a href="knowledge.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-store mr-3"></i>
+                <span>店铺知识库</span>
+                <i class="fas fa-chevron-down ml-auto text-sm"></i>
+            </a>
+            
+            <!-- 商品知识库 -->
+            <div class="mt-6">
+                <div class="px-4 mb-2">
+                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">商品管理</span>
+                </div>
+                
+                <div class="nav-item active flex items-center px-4 py-3 text-blue-600">
+                    <i class="fas fa-box mr-3"></i>
+                    <span>商品知识库</span>
+                    <i class="fas fa-chevron-up ml-auto text-sm"></i>
+                </div>
+                
+                <div class="sub-nav-item active flex items-center px-4 py-2 text-blue-600">
+                    <i class="fas fa-cube mr-3"></i>
+                    <span>商品管理</span>
+                </div>
+                
+                <div class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-layer-group mr-3"></i>
+                    <span>商品模板管理</span>
+                </div>
+            </div>
+            
+            <a href="auto-reply.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-reply mr-3"></i>
+                <span>自动回复</span>
+                <i class="fas fa-chevron-down ml-auto text-sm"></i>
+            </a>
+            
+            <a href="settings.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-cog mr-3"></i>
+                <span>设置</span>
+                <i class="fas fa-chevron-down ml-auto text-sm"></i>
+            </a>
+        </nav>
+        
+        <!-- 当前登录信息 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full mr-3">
+                <div>
+                    <p class="text-sm font-medium text-gray-800">踏雪飞燕</p>
+                    <p class="text-xs text-gray-500">13950645054</p>
+                </div>
+                <i class="fas fa-user text-gray-400 ml-auto"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 顶部导航栏 -->
+        <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <h2 class="text-2xl font-bold text-gray-800">商品知识库</h2>
+                    <span class="ml-4 text-sm text-gray-500">/ 商品管理</span>
+                    <span class="ml-4 text-sm text-gray-500">/ 新手指南</span>
+                    <i class="fas fa-question-circle text-gray-400 ml-2"></i>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 cursor-pointer"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full">
+                        <span class="text-gray-700">管理员</span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容 -->
+        <main class="p-6">
+            <!-- 顶部操作栏 -->
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center space-x-4">
+                    <h3 class="text-lg font-semibold text-gray-800">共0个商品</h3>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm">默认排序</button>
+                        <button class="px-3 py-1 text-gray-600 hover:bg-gray-100 rounded text-sm">热度排序</button>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">
+                        <i class="fas fa-sync mr-2"></i>同步平台商品
+                    </button>
+                    <div class="relative">
+                        <select class="px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                            <option>全部商品</option>
+                            <option>已配置商品</option>
+                            <option>未配置商品</option>
+                        </select>
+                    </div>
+                    <div class="relative">
+                        <input type="text" placeholder="搜索商品名称/ID" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
+                        添加商品
+                        <i class="fas fa-chevron-down ml-2"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 空状态显示 -->
+            <div class="bg-white rounded-lg shadow-md">
+                <div class="empty-state">
+                    <div class="text-gray-400 mb-4">
+                        <i class="fas fa-box-open text-6xl"></i>
+                    </div>
+                    <h3 class="text-lg font-medium text-gray-600 mb-2">暂未添加相关商品</h3>
+                    <p class="text-sm text-gray-500 mb-6">请先添加商品或同步平台商品数据</p>
+                    <div class="flex space-x-4">
+                        <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                            <i class="fas fa-plus mr-2"></i>添加商品
+                        </button>
+                        <button class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700">
+                            <i class="fas fa-sync mr-2"></i>同步平台商品
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部操作栏 -->
+            <div class="mt-6 flex items-center justify-between">
+                <div class="flex space-x-4">
+                    <button class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">
+                        <i class="fas fa-list mr-2"></i>批量操作
+                    </button>
+                    <button class="flex items-center px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">
+                        <i class="fas fa-edit mr-2"></i>批量编辑单个商品信息
+                    </button>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-500">共0条</span>
+                    <div class="flex items-center space-x-2">
+                        <button class="p-2 text-gray-400 hover:text-gray-600 disabled">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button class="p-2 text-gray-400 hover:text-gray-600 disabled">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <select class="px-3 py-1 border border-gray-300 rounded text-sm">
+                            <option>20条/页</option>
+                            <option>50条/页</option>
+                            <option>100条/页</option>
+                        </select>
+                        <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm">前往</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 测试按钮 -->
+    <div class="fixed right-4 bottom-4">
+        <button class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg hover:bg-blue-700 flex items-center justify-center">
+            <i class="fas fa-play text-white"></i>
+        </button>
+        <span class="block text-center text-xs text-gray-600 mt-1">测试</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 导航项点击效果
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 子导航项点击效果
+            const subNavItems = document.querySelectorAll('.sub-nav-item');
+            subNavItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    subNavItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 排序按钮点击效果
+            const sortButtons = document.querySelectorAll('.px-3.py-1');
+            sortButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.textContent.includes('排序')) {
+                        sortButtons.forEach(b => {
+                            if (b.textContent.includes('排序')) {
+                                b.classList.remove('bg-blue-600', 'text-white');
+                                b.classList.add('text-gray-600');
+                            }
+                        });
+                        this.classList.add('bg-blue-600', 'text-white');
+                        this.classList.remove('text-gray-600');
+                    }
+                });
+            });
+
+            // 搜索框聚焦效果
+            const searchInput = document.querySelector('input[placeholder="搜索商品名称/ID"]');
+            searchInput.addEventListener('focus', function() {
+                this.parentElement.classList.add('ring-2', 'ring-blue-500');
+            });
+            searchInput.addEventListener('blur', function() {
+                this.parentElement.classList.remove('ring-2', 'ring-blue-500');
+            });
+
+            // 添加商品按钮点击效果
+            const addProductBtn = document.querySelector('button:contains("添加商品")');
+            if (addProductBtn) {
+                addProductBtn.addEventListener('click', function() {
+                    // 这里可以添加跳转到添加商品页面的逻辑
+                    console.log('跳转到添加商品页面');
+                });
+            }
+
+            // 同步平台商品按钮点击效果
+            const syncBtn = document.querySelector('button:contains("同步平台商品")');
+            if (syncBtn) {
+                syncBtn.addEventListener('click', function() {
+                    // 这里可以添加同步商品的逻辑
+                    console.log('开始同步平台商品');
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

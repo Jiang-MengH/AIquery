@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工单系统 - AI客服后台</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .status-pending { background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); }
+        .status-processing { background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); }
+        .status-completed { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+        .status-cancelled { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="mr-4">
+                        <i class="fas fa-arrow-left text-gray-600 hover:text-blue-600"></i>
+                    </a>
+                    <i class="fas fa-ticket-alt text-2xl text-red-600 mr-3"></i>
+                    <h1 class="text-xl font-bold text-gray-800">工单系统</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 cursor-pointer"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">8</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full">
+                        <span class="text-gray-700">客服小王</span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <div class="max-w-7xl mx-auto px-4 py-6">
+        <!-- 页面标题 -->
+        <div class="gradient-bg rounded-lg p-6 text-white mb-6">
+            <h2 class="text-2xl font-bold mb-2">工单管理</h2>
+            <p class="text-blue-100">当前有 23 个待处理工单，8 个处理中，45 个已完成</p>
+        </div>
+
+        <!-- 工单统计 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-red-100 text-red-600">
+                        <i class="fas fa-exclamation-triangle text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">待处理</p>
+                        <p class="text-2xl font-bold text-gray-800">23</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                        <i class="fas fa-clock text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">处理中</p>
+                        <p class="text-2xl font-bold text-gray-800">8</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-100 text-green-600">
+                        <i class="fas fa-check-circle text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">已完成</p>
+                        <p class="text-2xl font-bold text-gray-800">45</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-gray-100 text-gray-600">
+                        <i class="fas fa-times-circle text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">已取消</p>
+                        <p class="text-2xl font-bold text-gray-800">3</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工单管理界面 -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- 工单列表 -->
+            <div class="lg:col-span-3 bg-white rounded-lg shadow-md">
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">工单列表</h3>
+                        <div class="flex space-x-3">
+                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                <i class="fas fa-plus mr-2"></i>新建工单
+                            </button>
+                            <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                <i class="fas fa-download mr-2"></i>导出
+                            </button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="relative">
+                            <input type="text" placeholder="搜索工单..." class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                        </div>
+                        <select class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>全部状态</option>
+                            <option>待处理</option>
+                            <option>处理中</option>
+                            <option>已完成</option>
+                            <option>已取消</option>
+                        </select>
+                        <select class="border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            <option>全部类型</option>
+                            <option>退款申请</option>
+                            <option>商品问题</option>
+                            <option>物流问题</option>
+                            <option>发票问题</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- 工单表格 -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">工单信息</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">类型</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">状态</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">优先级</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">处理人</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">创建时间</th>
+                                <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    <div>
+                                        <p class="font-medium text-gray-800">#TK-20240115001</p>
+                                        <p class="text-sm text-gray-600">用户***123 申请退款，订单号：20240115001</p>
+                                        <p class="text-xs text-gray-500">淘宝店铺A</p>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">退款申请</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">待处理</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">高</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center">
+                                        <img src="https://via.placeholder.com/24x24" alt="头像" class="w-6 h-6 rounded-full mr-2">
+                                        <span class="text-sm">客服小王</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-sm text-gray-500">2024-01-15 14:30</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-800 text-sm">处理</button>
+                                        <button class="text-green-600 hover:text-green-800 text-sm">转派</button>
+                                        <button class="text-red-600 hover:text-red-800 text-sm">关闭</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    <div>
+                                        <p class="font-medium text-gray-800">#TK-20240115002</p>
+                                        <p class="text-sm text-gray-600">用户***456 商品质量问题，需要换货</p>
+                                        <p class="text-xs text-gray-500">拼多多店铺B</p>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">商品问题</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">处理中</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">中</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center">
+                                        <img src="https://via.placeholder.com/24x24" alt="头像" class="w-6 h-6 rounded-full mr-2">
+                                        <span class="text-sm">客服小李</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-sm text-gray-500">2024-01-15 13:45</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-800 text-sm">查看</button>
+                                        <button class="text-green-600 hover:text-green-800 text-sm">更新</button>
+                                        <button class="text-red-600 hover:text-red-800 text-sm">关闭</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    <div>
+                                        <p class="font-medium text-gray-800">#TK-20240115003</p>
+                                        <p class="text-sm text-gray-600">用户***789 物流配送延迟，要求加急</p>
+                                        <p class="text-xs text-gray-500">抖音小店C</p>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">物流问题</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">已完成</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">低</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center">
+                                        <img src="https://via.placeholder.com/24x24" alt="头像" class="w-6 h-6 rounded-full mr-2">
+                                        <span class="text-sm">客服小王</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-sm text-gray-500">2024-01-15 12:20</td>
+                                <td class="px-4 py-3">
+                                    <div class="flex space-x-2">
+                                        <button class="text-blue-600 hover:text-blue-800 text-sm">查看</button>
+                                        <button class="text-gray-600 hover:text-gray-800 text-sm">归档</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分页 -->
+                <div class="flex items-center justify-between p-4 border-t border-gray-200">
+                    <div class="text-sm text-gray-700">
+                        显示 1-10 条，共 79 条记录
+                    </div>
+                    <div class="flex space-x-2">
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50">上一页</button>
+                        <button class="px-3 py-1 bg-blue-600 text-white rounded text-sm">1</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50">2</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50">3</button>
+                        <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50">下一页</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 工单详情 -->
+            <div class="lg:col-span-1 bg-white rounded-lg shadow-md">
+                <div class="p-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800">工单详情</h3>
+                </div>
+                
+                <div class="p-4">
+                    <!-- 工单基本信息 -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h4 class="font-medium text-gray-800">#TK-20240115001</h4>
+                            <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">待处理</span>
+                        </div>
+                        
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">工单类型:</span>
+                                <span class="font-medium">退款申请</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">优先级:</span>
+                                <span class="font-medium text-red-600">高</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">创建时间:</span>
+                                <span class="font-medium">2024-01-15 14:30</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">处理人:</span>
+                                <span class="font-medium">客服小王</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">来源平台:</span>
+                                <span class="font-medium">淘宝店铺A</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 用户信息 -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3">用户信息</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">用户ID:</span>
+                                <span class="font-medium">用户***123</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">订单号:</span>
+                                <span class="font-medium">20240115001</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">商品:</span>
+                                <span class="font-medium">iPhone 15 Pro</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">金额:</span>
+                                <span class="font-medium text-green-600">¥8,999</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 问题描述 -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3">问题描述</h4>
+                        <div class="bg-gray-50 rounded-lg p-3 text-sm">
+                            <p>用户反映收到的商品有轻微划痕，要求申请退款。已上传商品照片作为凭证。</p>
+                        </div>
+                    </div>
+
+                    <!-- 处理记录 -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3">处理记录</h4>
+                        <div class="space-y-3">
+                            <div class="flex items-start space-x-3">
+                                <div class="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium">工单创建</p>
+                                    <p class="text-xs text-gray-500">2024-01-15 14:30</p>
+                                    <p class="text-xs text-gray-600 mt-1">系统自动创建工单</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <div class="w-2 h-2 bg-yellow-600 rounded-full mt-2"></div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium">分配给客服小王</p>
+                                    <p class="text-xs text-gray-500">2024-01-15 14:32</p>
+                                    <p class="text-xs text-gray-600 mt-1">系统自动分配</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div class="space-y-2">
+                        <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                            <i class="fas fa-edit mr-2"></i>开始处理
+                        </button>
+                        <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
+                            <i class="fas fa-share mr-2"></i>转派工单
+                        </button>
+                        <button class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700">
+                            <i class="fas fa-clock mr-2"></i>暂停处理
+                        </button>
+                        <button class="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-700">
+                            <i class="fas fa-times mr-2"></i>关闭工单
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 工单流程配置 -->
+        <div class="bg-white rounded-lg shadow-md p-6 mt-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">工单流程配置</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- 流程设置 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-medium text-gray-800 mb-3">流程设置</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">自动分配</span>
+                            <div class="relative">
+                                <input type="checkbox" class="sr-only" id="auto-assign" checked>
+                                <label for="auto-assign" class="block bg-gray-200 w-10 h-6 rounded-full cursor-pointer"></label>
+                                <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">超时提醒</span>
+                            <div class="relative">
+                                <input type="checkbox" class="sr-only" id="timeout-alert" checked>
+                                <label for="timeout-alert" class="block bg-gray-200 w-10 h-6 rounded-full cursor-pointer"></label>
+                                <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">自动升级</span>
+                            <div class="relative">
+                                <input type="checkbox" class="sr-only" id="auto-escalate">
+                                <label for="auto-escalate" class="block bg-gray-200 w-10 h-6 rounded-full cursor-pointer"></label>
+                                <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 处理时限 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-medium text-gray-800 mb-3">处理时限</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">高优先级</span>
+                            <span class="text-sm font-medium">2小时</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">中优先级</span>
+                            <span class="text-sm font-medium">4小时</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">低优先级</span>
+                            <span class="text-sm font-medium">8小时</span>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">超时升级</span>
+                            <span class="text-sm font-medium">启用</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 通知设置 -->
+                <div class="border border-gray-200 rounded-lg p-4">
+                    <h4 class="font-medium text-gray-800 mb-3">通知设置</h4>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">邮件通知</span>
+                            <div class="relative">
+                                <input type="checkbox" class="sr-only" id="email-notify" checked>
+                                <label for="email-notify" class="block bg-gray-200 w-10 h-6 rounded-full cursor-pointer"></label>
+                                <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">短信通知</span>
+                            <div class="relative">
+                                <input type="checkbox" class="sr-only" id="sms-notify">
+                                <label for="sms-notify" class="block bg-gray-200 w-10 h-6 rounded-full cursor-pointer"></label>
+                                <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">系统通知</span>
+                            <div class="relative">
+                                <input type="checkbox" class="sr-only" id="system-notify" checked>
+                                <label for="system-notify" class="block bg-gray-200 w-10 h-6 rounded-full cursor-pointer"></label>
+                                <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 工单行点击效果
+            const ticketRows = document.querySelectorAll('tbody tr');
+            ticketRows.forEach(row => {
+                row.addEventListener('click', function() {
+                    // 移除所有选中状态
+                    ticketRows.forEach(r => {
+                        r.classList.remove('bg-blue-50');
+                    });
+                    // 添加当前选中状态
+                    this.classList.add('bg-blue-50');
+                });
+            });
+
+            // 开关按钮效果
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const label = this.nextElementSibling;
+                    const dot = label.nextElementSibling;
+                    if (this.checked) {
+                        label.classList.add('bg-blue-600');
+                        dot.classList.add('translate-x-4');
+                    } else {
+                        label.classList.remove('bg-blue-600');
+                        dot.classList.remove('translate-x-4');
+                    }
+                });
+            });
+
+            // 模拟实时数据更新
+            setInterval(() => {
+                const statusElements = document.querySelectorAll('.bg-yellow-100');
+                statusElements.forEach(element => {
+                    if (Math.random() > 0.95) {
+                        element.classList.remove('bg-yellow-100', 'text-yellow-800');
+                        element.classList.add('bg-blue-100', 'text-blue-800');
+                        element.textContent = '处理中';
+                    }
+                });
+            }, 15000);
+        });
+    </script>
+</body>
+</html> 

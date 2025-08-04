@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>问答知识库 - 福客AI客服助手</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .sidebar {
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+        .main-content {
+            margin-left: 250px;
+            transition: all 0.3s ease;
+        }
+        .nav-item {
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover {
+            background-color: #f3f4f6;
+        }
+        .nav-item.active {
+            background-color: #dbeafe;
+            color: #2563eb;
+            border-right: 3px solid #2563eb;
+        }
+        .sub-nav-item {
+            padding-left: 2rem;
+            font-size: 0.875rem;
+        }
+        .sub-nav-item.active {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 左侧导航栏 -->
+    <div class="sidebar fixed h-full bg-white shadow-lg z-50">
+        <!-- Logo区域 -->
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center">
+                <i class="fas fa-robot text-2xl text-blue-600 mr-3"></i>
+                <h1 class="text-xl font-bold text-gray-800">福客AI客服助手</h1>
+            </div>
+            <p class="text-sm text-gray-500 mt-1">训练语料库</p>
+        </div>
+        
+        <!-- 导航菜单 -->
+        <nav class="mt-6">
+            <div class="px-4 mb-4">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">主要功能</span>
+            </div>
+            
+            <a href="index.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-chart-bar mr-3"></i>
+                <span>数据统计</span>
+            </a>
+            
+            <a href="ai-optimization.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-brain mr-3"></i>
+                <span>AI智能优化</span>
+            </a>
+            
+            <!-- 店铺知识库 -->
+            <div class="mt-6">
+                <div class="px-4 mb-2">
+                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">知识管理</span>
+                </div>
+                
+                <div class="nav-item active flex items-center px-4 py-3 text-blue-600">
+                    <i class="fas fa-store mr-3"></i>
+                    <span>店铺知识库</span>
+                    <i class="fas fa-chevron-down ml-auto text-sm"></i>
+                </div>
+                
+                <a href="knowledge-qa.html" class="sub-nav-item active flex items-center px-4 py-2 text-blue-600">
+                    <i class="fas fa-comments mr-3"></i>
+                    <span>问答知识库</span>
+                </a>
+                
+                <a href="knowledge-keywords.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-key mr-3"></i>
+                    <span>关键词知识库</span>
+                </a>
+                
+                <a href="store-info.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-info-circle mr-3"></i>
+                    <span>店铺信息</span>
+                </a>
+                
+                <a href="welcome-message.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-hand-wave mr-3"></i>
+                    <span>欢迎语</span>
+                </a>
+                
+                <a href="prohibited-words.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-ban mr-3"></i>
+                    <span>违禁词管理</span>
+                </a>
+                
+                <a href="scenario-solutions.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-lightbulb mr-3"></i>
+                    <span>场景解决方案</span>
+                </a>
+            </div>
+            
+            <!-- 商品知识库 -->
+            <div class="mt-6">
+                <div class="px-4 mb-2">
+                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">商品管理</span>
+                </div>
+                
+                <div class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-box mr-3"></i>
+                    <span>商品知识库</span>
+                    <i class="fas fa-chevron-down ml-auto text-sm"></i>
+                </div>
+                
+                <a href="products.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-cube mr-3"></i>
+                    <span>商品管理</span>
+                </a>
+                
+                <a href="product-templates.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-layer-group mr-3"></i>
+                    <span>商品模板管理</span>
+                </a>
+            </div>
+            
+            <a href="auto-reply.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-reply mr-3"></i>
+                <span>自动回复</span>
+            </a>
+            
+            <a href="settings.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-cog mr-3"></i>
+                <span>设置</span>
+            </a>
+        </nav>
+        
+        <!-- 当前登录信息 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full mr-3">
+                <div>
+                    <p class="text-sm font-medium text-gray-800">踏雪飞燕</p>
+                    <p class="text-xs text-gray-500">13950645054</p>
+                </div>
+                <i class="fas fa-user text-gray-400 ml-auto"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 顶部导航栏 -->
+        <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <h2 class="text-2xl font-bold text-gray-800">问答知识库</h2>
+                    <span class="ml-4 text-sm text-gray-500">/ 新手指南</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 cursor-pointer"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full">
+                        <span class="text-gray-700">管理员</span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容 -->
+        <main class="p-6">
+            <!-- 分类标签 -->
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex space-x-1">
+                    <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-medium">全部 • 208</button>
+                    <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">售前问题 • 3</button>
+                    <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">售后问题 • 7</button>
+                    <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">商品问题 • 105</button>
+                    <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">活动优惠 • 11</button>
+                    <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">物流问题 • 11</button>
+                    <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">聊天互动 • 59</button>
+                    <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg text-sm">购买操作 • 12</button>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="text" placeholder="模拟提问" class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">
+                        <i class="fas fa-download mr-2"></i>订阅行业包
+                    </button>
+                </div>
+            </div>
+
+            <!-- 知识库条目 -->
+            <div class="space-y-6">
+                <!-- 退款流程和规则 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-3">
+                                <h3 class="text-lg font-semibold text-gray-800">退款流程和规则</h3>
+                                <span class="ml-2 bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">行业通用</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">7天咨询量</p>
+                                    <p class="text-lg font-bold text-gray-800">0</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">知识内容应包含</p>
+                                    <p class="text-sm text-gray-700">退款/退货相关 / 修改退款信息 / 无法申请退款</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多</a>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">常见客户问题</p>
+                                    <p class="text-sm text-gray-700">我已经申请退款了，还能改吗？ / 不合适可以退货吗？ / 无法申请退款</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多问法</a>
+                                </div>
+                            </div>
+                            
+                            <!-- 知识内容配置 -->
+                            <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-medium text-gray-700">满足条件</span>
+                                    <span class="text-sm text-gray-500">无关联商品</span>
+                                </div>
+                                <div class="flex space-x-2 mb-3">
+                                    <button class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">售前</button>
+                                    <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">发货前</button>
+                                    <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">发货后</button>
+                                    <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">售后</button>
+                                </div>
+                                <div class="bg-white p-3 rounded border">
+                                    <p class="text-sm text-gray-700">[申请退款] 您的退款申请已收到，请稍等片刻，专属客服将为您处理。</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-4">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                            <button class="text-red-600 hover:text-red-800 text-sm">删除</button>
+                            <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">添加知识</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 发票开具和管理 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-3">
+                                <h3 class="text-lg font-semibold text-gray-800">发票开具和管理</h3>
+                                <span class="ml-2 bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">行业通用</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">7天咨询量</p>
+                                    <p class="text-lg font-bold text-gray-800">0</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">知识内容应包含</p>
+                                    <p class="text-sm text-gray-700">发票金额 / 发票进度查询 / 发票信息反馈</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多</a>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">常见客户问题</p>
+                                    <p class="text-sm text-gray-700">可以多开几张发票吗？ / 发票还没开，请尽快给我开 / 发票在哪里下载？</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多问法</a>
+                                </div>
+                            </div>
+                            
+                            <!-- 知识内容配置 -->
+                            <div class="mt-4 p-4 bg-gray-50 rounded-lg">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-sm font-medium text-gray-700">满足条件</span>
+                                    <span class="text-sm text-gray-500">无关联商品</span>
+                                </div>
+                                <div class="flex space-x-2 mb-3">
+                                    <button class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm">售前</button>
+                                    <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">发货前</button>
+                                    <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">发货后</button>
+                                    <button class="px-3 py-1 bg-gray-100 text-gray-600 rounded-full text-sm">售后</button>
+                                </div>
+                                <div class="bg-white p-3 rounded border">
+                                    <p class="text-sm text-gray-700">[可以开发票吗？] 亲，可以开发票哦~</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-4">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                            <button class="text-red-600 hover:text-red-800 text-sm">删除</button>
+                            <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">添加知识</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 安装服务说明 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-3">
+                                <h3 class="text-lg font-semibold text-gray-800">安装服务说明</h3>
+                                <span class="ml-2 bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">行业通用</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">7天咨询量</p>
+                                    <p class="text-lg font-bold text-gray-800">0</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">知识内容应包含</p>
+                                    <p class="text-sm text-gray-700">安装教程 / 安装服务 / 安装网点</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多</a>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">常见客户问题</p>
+                                    <p class="text-sm text-gray-700">安装打什么电话？ / 包含安装吗？ / 怎么预约安装？</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多问法</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-4">
+                            <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">添加知识</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 活动和促销规则 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-3">
+                                <h3 class="text-lg font-semibold text-gray-800">活动和促销规则</h3>
+                                <span class="ml-2 bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">行业通用</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">7天咨询量</p>
+                                    <p class="text-lg font-bold text-gray-800">0</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">知识内容应包含</p>
+                                    <p class="text-sm text-gray-700">优惠建议 / 商品定价 / 店铺活动</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多</a>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">常见客户问题</p>
+                                    <p class="text-sm text-gray-700">怎么买最优惠？ / 就差一点金额就优惠了，能通融一下吗？ / 能先按活动价卖给我吗？</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多问法</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-4">
+                            <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">添加知识</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 售后和维修支持 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-start justify-between">
+                        <div class="flex-1">
+                            <div class="flex items-center mb-3">
+                                <h3 class="text-lg font-semibold text-gray-800">售后和维修支持</h3>
+                                <span class="ml-2 bg-gray-100 text-gray-600 px-2 py-1 rounded-full text-xs">行业通用</span>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">7天咨询量</p>
+                                    <p class="text-lg font-bold text-gray-800">0</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">知识内容应包含</p>
+                                    <p class="text-sm text-gray-700">维修要求 / 换货维修运费 / 全国联保</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多</a>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 mb-1">常见客户问题</p>
+                                    <p class="text-sm text-gray-700">可以维修吗？ / 有全国联保吗？ / 维修网点</p>
+                                    <a href="#" class="text-blue-600 text-sm">更多问法</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-4">
+                            <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">添加知识</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 测试按钮 -->
+    <div class="fixed right-4 bottom-4">
+        <button class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg hover:bg-blue-700 flex items-center justify-center">
+            <i class="fas fa-play text-white"></i>
+        </button>
+        <span class="block text-center text-xs text-gray-600 mt-1">测试</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 导航项点击效果
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 子导航项点击效果
+            const subNavItems = document.querySelectorAll('.sub-nav-item');
+            subNavItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    subNavItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 分类标签点击效果
+            const categoryButtons = document.querySelectorAll('.px-4.py-2');
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    categoryButtons.forEach(b => {
+                        b.classList.remove('bg-blue-600', 'text-white');
+                        b.classList.add('text-gray-600');
+                    });
+                    this.classList.add('bg-blue-600', 'text-white');
+                    this.classList.remove('text-gray-600');
+                });
+            });
+
+            // 知识条目悬停效果
+            const knowledgeItems = document.querySelectorAll('.bg-white.rounded-lg.shadow-md');
+            knowledgeItems.forEach(item => {
+                item.addEventListener('mouseenter', function() {
+                    this.classList.add('shadow-lg');
+                });
+                item.addEventListener('mouseleave', function() {
+                    this.classList.remove('shadow-lg');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 

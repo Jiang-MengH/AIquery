@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>渠道平台接入 - AI客服后台</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .platform-card {
+            border-left: 4px solid transparent;
+        }
+        .platform-card.connected {
+            border-left-color: #10b981;
+        }
+        .platform-card.disconnected {
+            border-left-color: #ef4444;
+        }
+        .platform-card.pending {
+            border-left-color: #f59e0b;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="mr-4">
+                        <i class="fas fa-arrow-left text-gray-600 hover:text-blue-600"></i>
+                    </a>
+                    <i class="fas fa-plug text-2xl text-purple-600 mr-3"></i>
+                    <h1 class="text-xl font-bold text-gray-800">渠道平台接入</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 cursor-pointer"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">2</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full">
+                        <span class="text-gray-700">管理员</span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <div class="max-w-7xl mx-auto px-4 py-6">
+        <!-- 页面标题 -->
+        <div class="gradient-bg rounded-lg p-6 text-white mb-6">
+            <h2 class="text-2xl font-bold mb-2">多渠道接入管理</h2>
+            <p class="text-blue-100">已接入 4 个平台，7 个店铺，今日消息量 1,234 条</p>
+        </div>
+
+        <!-- 统计概览 -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-green-100 text-green-600">
+                        <i class="fas fa-check-circle text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">已接入平台</p>
+                        <p class="text-2xl font-bold text-gray-800">4</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                        <i class="fas fa-store text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">已连接店铺</p>
+                        <p class="text-2xl font-bold text-gray-800">7</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-orange-100 text-orange-600">
+                        <i class="fas fa-comments text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">今日消息</p>
+                        <p class="text-2xl font-bold text-gray-800">1,234</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <div class="flex items-center">
+                    <div class="p-3 rounded-full bg-purple-100 text-purple-600">
+                        <i class="fas fa-clock text-xl"></i>
+                    </div>
+                    <div class="ml-4">
+                        <p class="text-sm text-gray-600">平均响应</p>
+                        <p class="text-2xl font-bold text-gray-800">2.3s</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 平台接入管理 -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- 平台列表 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">平台接入状态</h3>
+                <div class="space-y-4">
+                    <!-- 淘宝/天猫 -->
+                    <div class="platform-card connected bg-white border rounded-lg p-4 card-hover">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fab fa-alipay text-2xl text-blue-600 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">淘宝/天猫</p>
+                                    <p class="text-sm text-gray-500">3个店铺已连接</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">已连接</span>
+                                <p class="text-sm text-gray-500 mt-1">156 消息/日</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span><i class="fas fa-clock mr-1"></i>最后同步: 2分钟前</span>
+                                <span><i class="fas fa-signal mr-1"></i>信号强度: 强</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                                <button class="text-green-600 hover:text-green-800 text-sm">测试</button>
+                                <button class="text-red-600 hover:text-red-800 text-sm">断开</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 拼多多 -->
+                    <div class="platform-card connected bg-white border rounded-lg p-4 card-hover">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-shopping-cart text-2xl text-red-600 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">拼多多</p>
+                                    <p class="text-sm text-gray-500">2个店铺已连接</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">已连接</span>
+                                <p class="text-sm text-gray-500 mt-1">89 消息/日</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span><i class="fas fa-clock mr-1"></i>最后同步: 5分钟前</span>
+                                <span><i class="fas fa-signal mr-1"></i>信号强度: 中</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                                <button class="text-green-600 hover:text-green-800 text-sm">测试</button>
+                                <button class="text-red-600 hover:text-red-800 text-sm">断开</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 抖音小店 -->
+                    <div class="platform-card connected bg-white border rounded-lg p-4 card-hover">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fab fa-tiktok text-2xl text-black mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">抖音小店</p>
+                                    <p class="text-sm text-gray-500">1个店铺已连接</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">已连接</span>
+                                <p class="text-sm text-gray-500 mt-1">67 消息/日</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span><i class="fas fa-clock mr-1"></i>最后同步: 8分钟前</span>
+                                <span><i class="fas fa-signal mr-1"></i>信号强度: 强</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                                <button class="text-green-600 hover:text-green-800 text-sm">测试</button>
+                                <button class="text-red-600 hover:text-red-800 text-sm">断开</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 小红书 -->
+                    <div class="platform-card pending bg-white border rounded-lg p-4 card-hover">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <i class="fas fa-heart text-2xl text-pink-600 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">小红书</p>
+                                    <p class="text-sm text-gray-500">1个店铺待连接</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">待授权</span>
+                                <p class="text-sm text-gray-500 mt-1">0 消息/日</p>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex items-center justify-between">
+                            <div class="flex items-center space-x-4 text-sm text-gray-500">
+                                <span><i class="fas fa-clock mr-1"></i>最后同步: 未连接</span>
+                                <span><i class="fas fa-signal mr-1"></i>信号强度: 无</span>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-blue-600 hover:text-blue-800 text-sm">授权</button>
+                                <button class="text-gray-400 text-sm cursor-not-allowed">测试</button>
+                                <button class="text-gray-400 text-sm cursor-not-allowed">断开</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 消息推送配置 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">消息推送配置</h3>
+                <div class="space-y-4">
+                    <!-- WebSocket配置 -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-medium text-gray-800">WebSocket推送</h4>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">已启用</span>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">连接地址:</span>
+                                <span class="font-mono">wss://api.example.com/ws</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">连接状态:</span>
+                                <span class="text-green-600">已连接</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">消息频率:</span>
+                                <span>实时推送</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                            <button class="text-green-600 hover:text-green-800 text-sm">测试</button>
+                        </div>
+                    </div>
+
+                    <!-- API推送配置 -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-medium text-gray-800">API推送</h4>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">已启用</span>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">回调地址:</span>
+                                <span class="font-mono">https://api.example.com/webhook</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">推送频率:</span>
+                                <span>5秒间隔</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">重试次数:</span>
+                                <span>3次</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                            <button class="text-green-600 hover:text-green-800 text-sm">测试</button>
+                        </div>
+                    </div>
+
+                    <!-- 消息格式配置 -->
+                    <div class="border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-3">
+                            <h4 class="font-medium text-gray-800">消息格式</h4>
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">标准格式</span>
+                        </div>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">编码格式:</span>
+                                <span>UTF-8</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">数据格式:</span>
+                                <span>JSON</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">加密方式:</span>
+                                <span>AES-256</span>
+                            </div>
+                        </div>
+                        <div class="mt-3 flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                            <button class="text-green-600 hover:text-green-800 text-sm">预览</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 店铺管理 -->
+        <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-lg font-semibold text-gray-800">店铺管理</h3>
+                <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                    <i class="fas fa-plus mr-2"></i>添加店铺
+                </button>
+            </div>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full">
+                    <thead>
+                        <tr class="bg-gray-50">
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">店铺信息</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">平台</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">连接状态</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">今日消息</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">最后同步</th>
+                            <th class="px-4 py-3 text-left text-sm font-medium text-gray-700">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="border-b">
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/40x40" alt="店铺头像" class="w-10 h-10 rounded mr-3">
+                                    <div>
+                                        <p class="font-medium text-gray-800">数码专营店</p>
+                                        <p class="text-sm text-gray-500">淘宝店铺A</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <i class="fab fa-alipay text-blue-600 mr-2"></i>
+                                    <span>淘宝/天猫</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">已连接</span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="text-green-600 font-medium">89</span>
+                            </td>
+                            <td class="px-4 py-3 text-sm text-gray-500">2分钟前</td>
+                            <td class="px-4 py-3">
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                                    <button class="text-green-600 hover:text-green-800 text-sm">同步</button>
+                                    <button class="text-red-600 hover:text-red-800 text-sm">断开</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/40x40" alt="店铺头像" class="w-10 h-10 rounded mr-3">
+                                    <div>
+                                        <p class="font-medium text-gray-800">时尚服饰店</p>
+                                        <p class="text-sm text-gray-500">拼多多店铺B</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <i class="fas fa-shopping-cart text-red-600 mr-2"></i>
+                                    <span>拼多多</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">已连接</span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="text-green-600 font-medium">67</span>
+                            </td>
+                            <td class="px-4 py-3 text-sm text-gray-500">5分钟前</td>
+                            <td class="px-4 py-3">
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                                    <button class="text-green-600 hover:text-green-800 text-sm">同步</button>
+                                    <button class="text-red-600 hover:text-red-800 text-sm">断开</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="border-b">
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <img src="https://via.placeholder.com/40x40" alt="店铺头像" class="w-10 h-10 rounded mr-3">
+                                    <div>
+                                        <p class="font-medium text-gray-800">美妆护肤店</p>
+                                        <p class="text-sm text-gray-500">抖音小店C</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <div class="flex items-center">
+                                    <i class="fab fa-tiktok text-black mr-2"></i>
+                                    <span>抖音小店</span>
+                                </div>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">已连接</span>
+                            </td>
+                            <td class="px-4 py-3">
+                                <span class="text-green-600 font-medium">45</span>
+                            </td>
+                            <td class="px-4 py-3 text-sm text-gray-500">8分钟前</td>
+                            <td class="px-4 py-3">
+                                <div class="flex space-x-2">
+                                    <button class="text-blue-600 hover:text-blue-800 text-sm">配置</button>
+                                    <button class="text-green-600 hover:text-green-800 text-sm">同步</button>
+                                    <button class="text-red-600 hover:text-red-800 text-sm">断开</button>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 接入日志 -->
+        <div class="bg-white rounded-lg shadow-md p-6">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">接入日志</h3>
+            <div class="space-y-3">
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-info-circle text-blue-600 mr-3"></i>
+                        <div>
+                            <p class="text-sm font-medium">淘宝店铺A 连接成功</p>
+                            <p class="text-xs text-gray-500">2024-01-15 14:30:25</p>
+                        </div>
+                    </div>
+                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">成功</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-triangle text-yellow-600 mr-3"></i>
+                        <div>
+                            <p class="text-sm font-medium">拼多多店铺B 连接超时</p>
+                            <p class="text-xs text-gray-500">2024-01-15 14:25:18</p>
+                        </div>
+                    </div>
+                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">警告</span>
+                </div>
+                <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                    <div class="flex items-center">
+                        <i class="fas fa-check-circle text-green-600 mr-3"></i>
+                        <div>
+                            <p class="text-sm font-medium">抖音小店C 消息同步完成</p>
+                            <p class="text-xs text-gray-500">2024-01-15 14:20:42</p>
+                        </div>
+                    </div>
+                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">成功</span>
+                </div>
+            </div>
+            <button class="mt-4 text-blue-600 hover:text-blue-800 text-sm">
+                查看全部日志 <i class="fas fa-arrow-right ml-1"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 平台卡片点击效果
+            const platformCards = document.querySelectorAll('.platform-card');
+            platformCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    // 移除所有选中状态
+                    platformCards.forEach(c => {
+                        c.classList.remove('ring-2', 'ring-blue-500');
+                    });
+                    // 添加当前选中状态
+                    this.classList.add('ring-2', 'ring-blue-500');
+                });
+            });
+
+            // 模拟实时状态更新
+            setInterval(() => {
+                const statusElements = document.querySelectorAll('.bg-green-100');
+                statusElements.forEach(element => {
+                    if (Math.random() > 0.95) {
+                        element.classList.remove('bg-green-100', 'text-green-800');
+                        element.classList.add('bg-yellow-100', 'text-yellow-800');
+                        element.textContent = '连接中...';
+                        setTimeout(() => {
+                            element.classList.remove('bg-yellow-100', 'text-yellow-800');
+                            element.classList.add('bg-green-100', 'text-green-800');
+                            element.textContent = '已连接';
+                        }, 2000);
+                    }
+                });
+            }, 10000);
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>客服会话管理 - AI客服后台</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .chat-container {
+            height: calc(100vh - 200px);
+        }
+        .message-bubble {
+            max-width: 70%;
+            word-wrap: break-word;
+        }
+        .message-user {
+            background: #e3f2fd;
+            border-radius: 18px 18px 4px 18px;
+        }
+        .message-ai {
+            background: #f5f5f5;
+            border-radius: 18px 18px 18px 4px;
+        }
+        .message-agent {
+            background: #e8f5e8;
+            border-radius: 18px 18px 18px 4px;
+        }
+        .online-indicator {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+        }
+        .typing-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #9ca3af;
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        .typing-indicator:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-10px); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="mr-4">
+                        <i class="fas fa-arrow-left text-gray-600 hover:text-blue-600"></i>
+                    </a>
+                    <i class="fas fa-comments text-2xl text-green-600 mr-3"></i>
+                    <h1 class="text-xl font-bold text-gray-800">客服会话管理</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 cursor-pointer"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">5</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full">
+                        <span class="text-gray-700">客服小王</span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <div class="max-w-7xl mx-auto px-4 py-6">
+        <!-- 页面标题 -->
+        <div class="gradient-bg rounded-lg p-6 text-white mb-6">
+            <h2 class="text-2xl font-bold mb-2">实时会话管理</h2>
+            <p class="text-blue-100">当前有 23 个活跃会话，AI 已处理 15 个，人工处理 8 个</p>
+        </div>
+
+        <!-- 会话管理界面 -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- 会话列表 -->
+            <div class="lg:col-span-1 bg-white rounded-lg shadow-md">
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-800">会话列表</h3>
+                        <div class="flex space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">
+                                <i class="fas fa-filter mr-1"></i>筛选
+                            </button>
+                            <button class="text-green-600 hover:text-green-800 text-sm">
+                                <i class="fas fa-plus mr-1"></i>新建
+                            </button>
+                        </div>
+                    </div>
+                    <div class="relative">
+                        <input type="text" placeholder="搜索会话..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+                    </div>
+                </div>
+                
+                <div class="overflow-y-auto" style="height: 600px;">
+                    <!-- 会话项 -->
+                    <div class="p-4 border-b border-gray-100 hover:bg-blue-50 cursor-pointer bg-blue-50">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium text-gray-800">用户***123</p>
+                                    <p class="text-xs text-gray-500">淘宝店铺A</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="online-indicator"></span>
+                                <span class="text-xs text-gray-500">2分钟前</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 truncate">请问如何申请退款？我想退货...</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">AI处理中</span>
+                            <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">紧急</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium text-gray-800">用户***456</p>
+                                    <p class="text-xs text-gray-500">拼多多店铺B</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="online-indicator"></span>
+                                <span class="text-xs text-gray-500">5分钟前</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 truncate">商品有质量问题，需要换货...</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">人工处理</span>
+                            <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">一般</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium text-gray-800">用户***789</p>
+                                    <p class="text-xs text-gray-500">抖音小店C</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="online-indicator"></span>
+                                <span class="text-xs text-gray-500">8分钟前</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 truncate">优惠券怎么使用？有什么限制...</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">AI处理中</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">普通</span>
+                        </div>
+                    </div>
+
+                    <div class="p-4 border-b border-gray-100 hover:bg-gray-50 cursor-pointer">
+                        <div class="flex items-center justify-between mb-2">
+                            <div class="flex items-center">
+                                <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full mr-3">
+                                <div>
+                                    <p class="font-medium text-gray-800">用户***012</p>
+                                    <p class="text-xs text-gray-500">小红书店铺D</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="online-indicator"></span>
+                                <span class="text-xs text-gray-500">12分钟前</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-600 truncate">物流什么时候能到？可以加急吗...</p>
+                        <div class="flex items-center justify-between mt-2">
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">人工处理</span>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">普通</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 聊天界面 -->
+            <div class="lg:col-span-2 bg-white rounded-lg shadow-md">
+                <div class="p-4 border-b border-gray-200">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <img src="https://via.placeholder.com/40x40" alt="用户头像" class="w-10 h-10 rounded-full mr-3">
+                            <div>
+                                <p class="font-medium text-gray-800">用户***123</p>
+                                <p class="text-sm text-gray-500">淘宝店铺A • 在线</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800">
+                                <i class="fas fa-user-circle"></i>
+                            </button>
+                            <button class="text-green-600 hover:text-green-800">
+                                <i class="fas fa-history"></i>
+                            </button>
+                            <button class="text-red-600 hover:text-red-800">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 聊天消息区域 -->
+                <div class="chat-container overflow-y-auto p-4">
+                    <div class="space-y-4">
+                        <!-- AI消息 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mr-3">
+                                <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-robot text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="message-bubble message-ai p-3">
+                                <p class="text-sm">您好！我是AI客服助手，很高兴为您服务。请问有什么可以帮助您的吗？</p>
+                                <p class="text-xs text-gray-500 mt-1">14:30</p>
+                            </div>
+                        </div>
+
+                        <!-- 用户消息 -->
+                        <div class="flex items-start justify-end">
+                            <div class="message-bubble message-user p-3">
+                                <p class="text-sm">请问如何申请退款？我想退货</p>
+                                <p class="text-xs text-gray-500 mt-1">14:31</p>
+                            </div>
+                        </div>
+
+                        <!-- AI消息 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mr-3">
+                                <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-robot text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="message-bubble message-ai p-3">
+                                <p class="text-sm">好的，我来为您介绍退款流程：</p>
+                                <p class="text-sm mt-2">1. 进入订单详情页面<br>
+                                2. 点击"申请退款"按钮<br>
+                                3. 选择退款原因<br>
+                                4. 上传相关凭证<br>
+                                5. 提交申请后等待审核</p>
+                                <p class="text-sm mt-2">退款审核通常需要1-3个工作日，退款到账时间根据支付方式不同，一般为3-7个工作日。</p>
+                                <p class="text-xs text-gray-500 mt-1">14:31</p>
+                            </div>
+                        </div>
+
+                        <!-- 用户消息 -->
+                        <div class="flex items-start justify-end">
+                            <div class="message-bubble message-user p-3">
+                                <p class="text-sm">好的，谢谢！那退款金额是全额退款吗？</p>
+                                <p class="text-xs text-gray-500 mt-1">14:32</p>
+                            </div>
+                        </div>
+
+                        <!-- AI正在输入 -->
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0 mr-3">
+                                <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-robot text-white text-sm"></i>
+                                </div>
+                            </div>
+                            <div class="message-bubble message-ai p-3">
+                                <div class="flex items-center space-x-1">
+                                    <span class="typing-indicator"></span>
+                                    <span class="typing-indicator"></span>
+                                    <span class="typing-indicator"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 输入区域 -->
+                <div class="p-4 border-t border-gray-200">
+                    <div class="flex items-center space-x-3">
+                        <button class="text-gray-500 hover:text-blue-600">
+                            <i class="fas fa-paperclip"></i>
+                        </button>
+                        <button class="text-gray-500 hover:text-blue-600">
+                            <i class="fas fa-image"></i>
+                        </button>
+                        <div class="flex-1">
+                            <input type="text" placeholder="输入消息..." class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        </div>
+                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between mt-2">
+                        <div class="flex items-center space-x-4 text-sm text-gray-500">
+                            <span><i class="fas fa-robot mr-1"></i>AI自动回复</span>
+                            <span><i class="fas fa-clock mr-1"></i>平均响应 2.3s</span>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <button class="text-blue-600 hover:text-blue-800 text-sm">转人工</button>
+                            <button class="text-green-600 hover:text-green-800 text-sm">结束会话</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 用户信息和操作面板 -->
+            <div class="lg:col-span-1 bg-white rounded-lg shadow-md">
+                <div class="p-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800">用户信息</h3>
+                </div>
+                
+                <div class="p-4">
+                    <!-- 用户基本信息 -->
+                    <div class="mb-6">
+                        <div class="flex items-center mb-4">
+                            <img src="https://via.placeholder.com/60x60" alt="用户头像" class="w-15 h-15 rounded-full mr-4">
+                            <div>
+                                <p class="font-medium text-gray-800">用户***123</p>
+                                <p class="text-sm text-gray-500">淘宝店铺A</p>
+                                <div class="flex items-center mt-1">
+                                    <span class="online-indicator mr-2"></span>
+                                    <span class="text-xs text-green-600">在线</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <p class="text-gray-500">会员等级</p>
+                                <p class="font-medium">黄金会员</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">注册时间</p>
+                                <p class="font-medium">2023-06-15</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">订单数量</p>
+                                <p class="font-medium">23 单</p>
+                            </div>
+                            <div>
+                                <p class="text-gray-500">消费金额</p>
+                                <p class="font-medium">¥2,456</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 最近订单 -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3">最近订单</h4>
+                        <div class="space-y-2">
+                            <div class="p-2 bg-gray-50 rounded">
+                                <p class="text-sm font-medium">订单 #20240115001</p>
+                                <p class="text-xs text-gray-500">iPhone 15 Pro • ¥8,999</p>
+                                <p class="text-xs text-green-600">已发货</p>
+                            </div>
+                            <div class="p-2 bg-gray-50 rounded">
+                                <p class="text-sm font-medium">订单 #20240114002</p>
+                                <p class="text-xs text-gray-500">AirPods Pro • ¥1,899</p>
+                                <p class="text-xs text-blue-600">已完成</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 快捷回复 -->
+                    <div class="mb-6">
+                        <h4 class="font-medium text-gray-800 mb-3">快捷回复</h4>
+                        <div class="space-y-2">
+                            <button class="w-full text-left p-2 bg-blue-50 rounded text-sm hover:bg-blue-100">
+                                退款流程说明
+                            </button>
+                            <button class="w-full text-left p-2 bg-blue-50 rounded text-sm hover:bg-blue-100">
+                                物流查询方式
+                            </button>
+                            <button class="w-full text-left p-2 bg-blue-50 rounded text-sm hover:bg-blue-100">
+                                发票开具流程
+                            </button>
+                            <button class="w-full text-left p-2 bg-blue-50 rounded text-sm hover:bg-blue-100">
+                                优惠券使用说明
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 操作按钮 -->
+                    <div class="space-y-2">
+                        <button class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700">
+                            <i class="fas fa-user mr-2"></i>转人工客服
+                        </button>
+                        <button class="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700">
+                            <i class="fas fa-ticket-alt mr-2"></i>创建工单
+                        </button>
+                        <button class="w-full bg-orange-600 text-white py-2 rounded-lg hover:bg-orange-700">
+                            <i class="fas fa-star mr-2"></i>标记重要
+                        </button>
+                        <button class="w-full bg-gray-600 text-white py-2 rounded-lg hover:bg-gray-700">
+                            <i class="fas fa-times mr-2"></i>结束会话
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 会话列表点击切换
+            const sessionItems = document.querySelectorAll('.p-4.border-b');
+            sessionItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 移除所有选中状态
+                    sessionItems.forEach(i => {
+                        i.classList.remove('bg-blue-50');
+                        i.classList.add('hover:bg-gray-50');
+                    });
+                    // 添加当前选中状态
+                    this.classList.add('bg-blue-50');
+                    this.classList.remove('hover:bg-gray-50');
+                });
+            });
+
+            // 模拟AI输入效果
+            const typingIndicator = document.querySelector('.typing-indicator').parentElement;
+            setTimeout(() => {
+                typingIndicator.innerHTML = `
+                    <p class="text-sm">退款金额根据商品状态和退款原因而定：</p>
+                    <p class="text-sm mt-2">• 未发货：全额退款<br>
+                    • 已发货未收货：扣除运费<br>
+                    • 已收货：根据商品状态评估</p>
+                    <p class="text-xs text-gray-500 mt-1">14:33</p>
+                `;
+            }, 2000);
+
+            // 输入框回车发送
+            const input = document.querySelector('input[placeholder="输入消息..."]');
+            input.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    // 模拟发送消息
+                    const chatContainer = document.querySelector('.chat-container');
+                    const messageDiv = document.createElement('div');
+                    messageDiv.className = 'flex items-start justify-end';
+                    messageDiv.innerHTML = `
+                        <div class="message-bubble message-user p-3">
+                            <p class="text-sm">${this.value}</p>
+                            <p class="text-xs text-gray-500 mt-1">${new Date().toLocaleTimeString()}</p>
+                        </div>
+                    `;
+                    chatContainer.appendChild(messageDiv);
+                    this.value = '';
+                    chatContainer.scrollTop = chatContainer.scrollHeight;
+                }
+            });
+        });
+    </script>
+</body>
+</html> 

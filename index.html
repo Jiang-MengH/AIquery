@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据统计 - 福客AI客服助手</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .sidebar {
+            width: 250px;
+            transition: all 0.3s ease;
+        }
+        .main-content {
+            margin-left: 250px;
+            transition: all 0.3s ease;
+        }
+        .nav-item {
+            transition: all 0.3s ease;
+        }
+        .nav-item:hover {
+            background-color: #f3f4f6;
+        }
+        .nav-item.active {
+            background-color: #dbeafe;
+            color: #2563eb;
+            border-right: 3px solid #2563eb;
+        }
+        .sub-nav-item {
+            padding-left: 2rem;
+            font-size: 0.875rem;
+        }
+        .sub-nav-item.active {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        .stat-card-2 {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        .stat-card-3 {
+            background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        }
+        .stat-card-4 {
+            background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 左侧导航栏 -->
+    <div class="sidebar fixed h-full bg-white shadow-lg z-50">
+        <!-- Logo区域 -->
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex items-center">
+                <i class="fas fa-robot text-2xl text-blue-600 mr-3"></i>
+                <h1 class="text-xl font-bold text-gray-800">福客AI客服助手</h1>
+            </div>
+            <p class="text-sm text-gray-500 mt-1">训练语料库</p>
+        </div>
+        
+        <!-- 导航菜单 -->
+        <nav class="mt-6">
+            <div class="px-4 mb-4">
+                <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">主要功能</span>
+            </div>
+            
+            <a href="index.html" class="nav-item active flex items-center px-4 py-3 text-blue-600">
+                <i class="fas fa-chart-bar mr-3"></i>
+                <span>数据统计</span>
+            </a>
+            
+            <a href="ai-optimization.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-brain mr-3"></i>
+                <span>AI智能优化</span>
+            </a>
+            
+            <!-- 店铺知识库 -->
+            <div class="mt-6">
+                <div class="px-4 mb-2">
+                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">知识管理</span>
+                </div>
+                
+                <div class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-store mr-3"></i>
+                    <span>店铺知识库</span>
+                    <i class="fas fa-chevron-down ml-auto text-sm"></i>
+                </div>
+                
+                <a href="knowledge-qa.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-comments mr-3"></i>
+                    <span>问答知识库</span>
+                </a>
+                
+                <a href="knowledge-keywords.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-key mr-3"></i>
+                    <span>关键词知识库</span>
+                </a>
+                
+                <a href="store-info.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-info-circle mr-3"></i>
+                    <span>店铺信息</span>
+                </a>
+                
+                <a href="welcome-message.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-hand-wave mr-3"></i>
+                    <span>欢迎语</span>
+                </a>
+                
+                <a href="prohibited-words.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-ban mr-3"></i>
+                    <span>违禁词管理</span>
+                </a>
+                
+                <a href="scenario-solutions.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-lightbulb mr-3"></i>
+                    <span>场景解决方案</span>
+                </a>
+            </div>
+            
+            <!-- 商品知识库 -->
+            <div class="mt-6">
+                <div class="px-4 mb-2">
+                    <span class="text-xs font-semibold text-gray-500 uppercase tracking-wider">商品管理</span>
+                </div>
+                
+                <div class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-box mr-3"></i>
+                    <span>商品知识库</span>
+                    <i class="fas fa-chevron-down ml-auto text-sm"></i>
+                </div>
+                
+                <a href="products.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-cube mr-3"></i>
+                    <span>商品管理</span>
+                </a>
+                
+                <a href="product-templates.html" class="sub-nav-item flex items-center px-4 py-2 text-gray-600 hover:bg-gray-50">
+                    <i class="fas fa-layer-group mr-3"></i>
+                    <span>商品模板管理</span>
+                </a>
+            </div>
+            
+            <a href="auto-reply.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-reply mr-3"></i>
+                <span>自动回复</span>
+            </a>
+            
+            <a href="settings.html" class="nav-item flex items-center px-4 py-3 text-gray-600 hover:bg-gray-50">
+                <i class="fas fa-cog mr-3"></i>
+                <span>设置</span>
+            </a>
+        </nav>
+        
+        <!-- 当前登录信息 -->
+        <div class="absolute bottom-0 left-0 right-0 p-4 border-t border-gray-200">
+            <div class="flex items-center">
+                <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full mr-3">
+                <div>
+                    <p class="text-sm font-medium text-gray-800">踏雪飞燕</p>
+                    <p class="text-xs text-gray-500">13950645054</p>
+                </div>
+                <i class="fas fa-user text-gray-400 ml-auto"></i>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主内容区域 -->
+    <div class="main-content">
+        <!-- 顶部导航栏 -->
+        <header class="bg-white shadow-sm border-b border-gray-200 px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <h2 class="text-2xl font-bold text-gray-800">数据统计</h2>
+                    <span class="ml-4 text-sm text-gray-500">/ 系统概览</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 cursor-pointer"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full">
+                        <span class="text-gray-700">管理员</span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主要内容 -->
+        <main class="p-6">
+            <!-- 欢迎区域 -->
+            <div class="gradient-bg rounded-lg p-6 text-white mb-6">
+                <h2 class="text-2xl font-bold mb-2">欢迎回来，管理员！</h2>
+                <p class="text-blue-100">今日有 156 个会话需要关注，AI 已自动处理 89% 的咨询</p>
+            </div>
+
+            <!-- 统计卡片 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stat-card rounded-lg p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-blue-100">今日会话数</p>
+                            <p class="text-3xl font-bold">1,234</p>
+                            <p class="text-blue-100 text-sm">↑ 12% 较昨日</p>
+                        </div>
+                        <i class="fas fa-comments text-4xl opacity-80"></i>
+                    </div>
+                </div>
+                <div class="stat-card-2 rounded-lg p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-blue-100">平均响应时间</p>
+                            <p class="text-3xl font-bold">2.3s</p>
+                            <p class="text-blue-100 text-sm">↓ 0.5s 较昨日</p>
+                        </div>
+                        <i class="fas fa-clock text-4xl opacity-80"></i>
+                    </div>
+                </div>
+                <div class="stat-card-3 rounded-lg p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-blue-100">问题解决率</p>
+                            <p class="text-3xl font-bold">89%</p>
+                            <p class="text-blue-100 text-sm">↑ 3% 较昨日</p>
+                        </div>
+                        <i class="fas fa-check-circle text-4xl opacity-80"></i>
+                    </div>
+                </div>
+                <div class="stat-card-4 rounded-lg p-6 text-white card-hover">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-blue-100">待处理工单</p>
+                            <p class="text-3xl font-bold">23</p>
+                            <p class="text-blue-100 text-sm">↓ 5 较昨日</p>
+                        </div>
+                        <i class="fas fa-ticket-alt text-4xl opacity-80"></i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 平台接入概况 -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">多平台接入概况</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fab fa-alipay text-2xl text-blue-600 mr-3"></i>
+                                <div>
+                                    <p class="font-medium">淘宝/天猫</p>
+                                    <p class="text-sm text-gray-500">3个店铺已接入</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">在线</p>
+                                <p class="text-sm text-gray-500">156 会话</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-shopping-cart text-2xl text-red-600 mr-3"></i>
+                                <div>
+                                    <p class="font-medium">拼多多</p>
+                                    <p class="text-sm text-gray-500">2个店铺已接入</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">在线</p>
+                                <p class="text-sm text-gray-500">89 会话</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fab fa-tiktok text-2xl text-black mr-3"></i>
+                                <div>
+                                    <p class="font-medium">抖音小店</p>
+                                    <p class="text-sm text-gray-500">1个店铺已接入</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">在线</p>
+                                <p class="text-sm text-gray-500">67 会话</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                            <div class="flex items-center">
+                                <i class="fas fa-heart text-2xl text-pink-600 mr-3"></i>
+                                <div>
+                                    <p class="font-medium">小红书</p>
+                                    <p class="text-sm text-gray-500">1个店铺已接入</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-bold text-green-600">在线</p>
+                                <p class="text-sm text-gray-500">34 会话</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 热点问题趋势 -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-semibold text-gray-800 mb-4">热点问题趋势</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">退款流程咨询</span>
+                            <div class="flex items-center">
+                                <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-blue-600 h-2 rounded-full" style="width: 85%"></div>
+                                </div>
+                                <span class="text-sm font-medium">85%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">商品质量问题</span>
+                            <div class="flex items-center">
+                                <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-green-600 h-2 rounded-full" style="width: 72%"></div>
+                                </div>
+                                <span class="text-sm font-medium">72%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">物流配送查询</span>
+                            <div class="flex items-center">
+                                <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-yellow-600 h-2 rounded-full" style="width: 68%"></div>
+                                </div>
+                                <span class="text-sm font-medium">68%</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm text-gray-600">发票开具申请</span>
+                            <div class="flex items-center">
+                                <div class="w-24 bg-gray-200 rounded-full h-2 mr-2">
+                                    <div class="bg-purple-600 h-2 rounded-full" style="width: 55%"></div>
+                                </div>
+                                <span class="text-sm font-medium">55%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 未处理问题提醒 -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">未处理问题提醒</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full">
+                        <thead>
+                            <tr class="bg-gray-50">
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">平台</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">用户</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">问题类型</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">等待时间</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">状态</th>
+                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="border-b">
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center">
+                                        <i class="fab fa-alipay text-blue-600 mr-2"></i>
+                                        <span>淘宝店铺A</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">用户***123</td>
+                                <td class="px-4 py-3">退款申请</td>
+                                <td class="px-4 py-3 text-red-600">15分钟</td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">紧急</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">处理</button>
+                                </td>
+                            </tr>
+                            <tr class="border-b">
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center">
+                                        <i class="fas fa-shopping-cart text-red-600 mr-2"></i>
+                                        <span>拼多多店铺B</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3">用户***456</td>
+                                <td class="px-4 py-3">商品质量问题</td>
+                                <td class="px-4 py-3 text-orange-600">8分钟</td>
+                                <td class="px-4 py-3">
+                                    <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">一般</span>
+                                </td>
+                                <td class="px-4 py-3">
+                                    <button class="bg-blue-600 text-white px-3 py-1 rounded text-sm">处理</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- 测试按钮 -->
+    <div class="fixed right-4 bottom-4">
+        <button class="bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg hover:bg-blue-700 flex items-center justify-center">
+            <i class="fas fa-play text-white"></i>
+        </button>
+        <span class="block text-center text-xs text-gray-600 mt-1">测试</span>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 导航项点击效果
+            const navItems = document.querySelectorAll('.nav-item');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    navItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 子导航项点击效果
+            const subNavItems = document.querySelectorAll('.sub-nav-item');
+            subNavItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    subNavItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // 统计卡片悬停效果
+            const statCards = document.querySelectorAll('.card-hover');
+            statCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // 模拟实时数据更新
+            setInterval(() => {
+                const stats = document.querySelectorAll('.text-3xl');
+                stats.forEach(stat => {
+                    const currentValue = parseInt(stat.textContent.replace(/[^\d]/g, ''));
+                    const newValue = currentValue + Math.floor(Math.random() * 10);
+                    stat.textContent = stat.textContent.replace(/\d+/, newValue);
+                });
+            }, 30000);
+        });
+    </script>
+</body>
+</html> 

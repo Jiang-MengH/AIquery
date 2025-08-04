@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>系统设置 - AI客服后台</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .gradient-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+        .setting-card {
+            border-left: 4px solid transparent;
+        }
+        .setting-card.active {
+            border-left-color: #10b981;
+        }
+        .setting-card.warning {
+            border-left-color: #f59e0b;
+        }
+        .setting-card.danger {
+            border-left-color: #ef4444;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- 顶部导航栏 -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="mr-4">
+                        <i class="fas fa-arrow-left text-gray-600 hover:text-blue-600"></i>
+                    </a>
+                    <i class="fas fa-cog text-2xl text-gray-600 mr-3"></i>
+                    <h1 class="text-xl font-bold text-gray-800">系统设置</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <i class="fas fa-bell text-gray-600 cursor-pointer"></i>
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">1</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <img src="https://via.placeholder.com/32x32" alt="用户头像" class="w-8 h-8 rounded-full">
+                        <span class="text-gray-700">超级管理员</span>
+                        <i class="fas fa-chevron-down text-gray-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主要内容区域 -->
+    <div class="max-w-7xl mx-auto px-4 py-6">
+        <!-- 页面标题 -->
+        <div class="gradient-bg rounded-lg p-6 text-white mb-6">
+            <h2 class="text-2xl font-bold mb-2">系统设置</h2>
+            <p class="text-blue-100">管理系统配置、权限设置、安全策略等核心功能</p>
+        </div>
+
+        <!-- 设置分类 -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            <!-- 设置导航 -->
+            <div class="lg:col-span-1 bg-white rounded-lg shadow-md">
+                <div class="p-4 border-b border-gray-200">
+                    <h3 class="text-lg font-semibold text-gray-800">设置分类</h3>
+                </div>
+                <nav class="p-4">
+                    <div class="space-y-2">
+                        <a href="#general" class="flex items-center px-3 py-2 text-blue-600 bg-blue-50 rounded-lg">
+                            <i class="fas fa-cog mr-3"></i>
+                            <span>基本设置</span>
+                        </a>
+                        <a href="#security" class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+                            <i class="fas fa-shield-alt mr-3"></i>
+                            <span>安全设置</span>
+                        </a>
+                        <a href="#permissions" class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+                            <i class="fas fa-users mr-3"></i>
+                            <span>权限管理</span>
+                        </a>
+                        <a href="#integrations" class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+                            <i class="fas fa-plug mr-3"></i>
+                            <span>接口配置</span>
+                        </a>
+                        <a href="#notifications" class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+                            <i class="fas fa-bell mr-3"></i>
+                            <span>通知设置</span>
+                        </a>
+                        <a href="#backup" class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+                            <i class="fas fa-database mr-3"></i>
+                            <span>备份恢复</span>
+                        </a>
+                        <a href="#logs" class="flex items-center px-3 py-2 text-gray-600 hover:bg-gray-50 rounded-lg">
+                            <i class="fas fa-file-alt mr-3"></i>
+                            <span>系统日志</span>
+                        </a>
+                    </div>
+                </nav>
+            </div>
+
+            <!-- 设置内容 -->
+            <div class="lg:col-span-3 bg-white rounded-lg shadow-md">
+                <div class="p-6">
+                    <!-- 基本设置 -->
+                    <div id="general">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">基本设置</h3>
+                        <div class="space-y-6">
+                            <!-- 系统信息 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">系统信息</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">系统名称</label>
+                                        <input type="text" value="AI客服后台管理系统" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">系统版本</label>
+                                        <input type="text" value="v2.1.0" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">管理员邮箱</label>
+                                        <input type="email" value="admin@example.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">时区设置</label>
+                                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <option>Asia/Shanghai (UTC+8)</option>
+                                            <option>UTC (UTC+0)</option>
+                                            <option>America/New_York (UTC-5)</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- AI配置 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">AI配置</h4>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">AI模型</label>
+                                        <select class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <option>GPT-4</option>
+                                            <option>GPT-3.5</option>
+                                            <option>Claude-3</option>
+                                            <option>文心一言</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">API密钥</label>
+                                        <input type="password" value="sk-..." class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">最大响应时间</label>
+                                        <input type="number" value="30" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">置信度阈值</label>
+                                        <input type="number" value="0.8" step="0.1" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 安全设置 -->
+                    <div id="security" class="hidden">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">安全设置</h3>
+                        <div class="space-y-6">
+                            <!-- 登录安全 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">登录安全</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">双因素认证</p>
+                                            <p class="text-sm text-gray-500">启用Google Authenticator或短信验证</p>
+                                        </div>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="2fa" checked>
+                                            <label for="2fa" class="block bg-blue-600 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">密码策略</p>
+                                            <p class="text-sm text-gray-500">强制使用复杂密码</p>
+                                        </div>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="password-policy" checked>
+                                            <label for="password-policy" class="block bg-blue-600 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">会话超时</p>
+                                            <p class="text-sm text-gray-500">30分钟无操作自动登出</p>
+                                        </div>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="session-timeout" checked>
+                                            <label for="session-timeout" class="block bg-blue-600 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- IP白名单 -->
+                            <div class="setting-card warning bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">IP白名单</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-2">
+                                        <input type="text" placeholder="输入IP地址" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">添加</button>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                            <span class="text-sm">192.168.1.100</span>
+                                            <button class="text-red-600 hover:text-red-800 text-sm">删除</button>
+                                        </div>
+                                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                            <span class="text-sm">10.0.0.50</span>
+                                            <button class="text-red-600 hover:text-red-800 text-sm">删除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 权限管理 -->
+                    <div id="permissions" class="hidden">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">权限管理</h3>
+                        <div class="space-y-6">
+                            <!-- 角色管理 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">角色管理</h4>
+                                <div class="overflow-x-auto">
+                                    <table class="min-w-full">
+                                        <thead>
+                                            <tr class="bg-gray-50">
+                                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">角色名称</th>
+                                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">权限</th>
+                                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">用户数</th>
+                                                <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr class="border-b">
+                                                <td class="px-4 py-2">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-crown text-yellow-500 mr-2"></i>
+                                                        <span class="font-medium">超级管理员</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-2 text-sm text-gray-600">全部权限</td>
+                                                <td class="px-4 py-2 text-sm">1</td>
+                                                <td class="px-4 py-2">
+                                                    <button class="text-blue-600 hover:text-blue-800 text-sm">编辑</button>
+                                                </td>
+                                            </tr>
+                                            <tr class="border-b">
+                                                <td class="px-4 py-2">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-user-tie text-blue-500 mr-2"></i>
+                                                        <span class="font-medium">店铺运营</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-2 text-sm text-gray-600">知识管理、数据分析</td>
+                                                <td class="px-4 py-2 text-sm">3</td>
+                                                <td class="px-4 py-2">
+                                                    <button class="text-blue-600 hover:text-blue-800 text-sm">编辑</button>
+                                                </td>
+                                            </tr>
+                                            <tr class="border-b">
+                                                <td class="px-4 py-2">
+                                                    <div class="flex items-center">
+                                                        <i class="fas fa-headset text-green-500 mr-2"></i>
+                                                        <span class="font-medium">客服</span>
+                                                    </div>
+                                                </td>
+                                                <td class="px-4 py-2 text-sm text-gray-600">会话管理、工单处理</td>
+                                                <td class="px-4 py-2 text-sm">5</td>
+                                                <td class="px-4 py-2">
+                                                    <button class="text-blue-600 hover:text-blue-800 text-sm">编辑</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                    <i class="fas fa-plus mr-2"></i>添加角色
+                                </button>
+                            </div>
+
+                            <!-- 用户管理 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">用户管理</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                                        <div class="flex items-center">
+                                            <img src="https://via.placeholder.com/32x32" alt="头像" class="w-8 h-8 rounded-full mr-3">
+                                            <div>
+                                                <p class="font-medium text-gray-800">张三</p>
+                                                <p class="text-sm text-gray-500">zhangsan@example.com</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">店铺运营</span>
+                                            <button class="text-blue-600 hover:text-blue-800 text-sm">编辑</button>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded">
+                                        <div class="flex items-center">
+                                            <img src="https://via.placeholder.com/32x32" alt="头像" class="w-8 h-8 rounded-full mr-3">
+                                            <div>
+                                                <p class="font-medium text-gray-800">李四</p>
+                                                <p class="text-sm text-gray-500">lisi@example.com</p>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">客服</span>
+                                            <button class="text-blue-600 hover:text-blue-800 text-sm">编辑</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                    <i class="fas fa-user-plus mr-2"></i>添加用户
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 接口配置 -->
+                    <div id="integrations" class="hidden">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">接口配置</h3>
+                        <div class="space-y-6">
+                            <!-- Webhook配置 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">Webhook配置</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">消息推送URL</label>
+                                        <input type="url" value="https://api.example.com/webhook" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">密钥</label>
+                                        <input type="password" value="webhook_secret_key" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">启用Webhook</span>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="webhook-enabled" checked>
+                                            <label for="webhook-enabled" class="block bg-blue-600 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- API配置 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">API配置</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">API密钥</label>
+                                        <div class="flex items-center space-x-2">
+                                            <input type="text" value="api_key_123456789" class="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" readonly>
+                                            <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">重新生成</button>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">API限制</label>
+                                        <input type="number" value="1000" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">启用API访问</span>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="api-enabled" checked>
+                                            <label for="api-enabled" class="block bg-blue-600 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 通知设置 -->
+                    <div id="notifications" class="hidden">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">通知设置</h3>
+                        <div class="space-y-6">
+                            <!-- 邮件通知 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">邮件通知</h4>
+                                <div class="space-y-4">
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">SMTP服务器</label>
+                                        <input type="text" value="smtp.gmail.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">邮箱地址</label>
+                                            <input type="email" value="notifications@example.com" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        </div>
+                                        <div>
+                                            <label class="block text-sm font-medium text-gray-700 mb-2">密码</label>
+                                            <input type="password" value="email_password" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <span class="text-sm text-gray-600">启用邮件通知</span>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="email-notifications" checked>
+                                            <label for="email-notifications" class="block bg-blue-600 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 系统通知 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">系统通知</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">工单提醒</p>
+                                            <p class="text-sm text-gray-500">新工单创建时通知</p>
+                                        </div>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="ticket-notifications" checked>
+                                            <label for="ticket-notifications" class="block bg-blue-600 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">系统警告</p>
+                                            <p class="text-sm text-gray-500">系统异常时通知</p>
+                                        </div>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="system-notifications" checked>
+                                            <label for="system-notifications" class="block bg-blue-600 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">数据报告</p>
+                                            <p class="text-sm text-gray-500">定期发送数据报告</p>
+                                        </div>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="report-notifications">
+                                            <label for="report-notifications" class="block bg-gray-200 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 备份恢复 -->
+                    <div id="backup" class="hidden">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">备份恢复</h3>
+                        <div class="space-y-6">
+                            <!-- 自动备份 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">自动备份</h4>
+                                <div class="space-y-4">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            <p class="font-medium text-gray-800">启用自动备份</p>
+                                            <p class="text-sm text-gray-500">每日凌晨2点自动备份</p>
+                                        </div>
+                                        <div class="relative">
+                                            <input type="checkbox" class="sr-only" id="auto-backup" checked>
+                                            <label for="auto-backup" class="block bg-blue-600 w-10 h-6 rounded-full cursor-pointer"></label>
+                                            <div class="dot absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition transform translate-x-4"></div>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">备份保留天数</label>
+                                        <input type="number" value="30" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                    <div>
+                                        <label class="block text-sm font-medium text-gray-700 mb-2">备份存储位置</label>
+                                        <input type="text" value="/backup" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- 手动备份 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">手动备份</h4>
+                                <div class="space-y-4">
+                                    <div class="flex space-x-3">
+                                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+                                            <i class="fas fa-download mr-2"></i>立即备份
+                                        </button>
+                                        <button class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+                                            <i class="fas fa-upload mr-2"></i>恢复备份
+                                        </button>
+                                    </div>
+                                    <div class="space-y-2">
+                                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                            <div>
+                                                <p class="font-medium text-sm">backup_2024-01-15_02-00-00.zip</p>
+                                                <p class="text-xs text-gray-500">2024-01-15 02:00:00 • 256MB</p>
+                                            </div>
+                                            <button class="text-blue-600 hover:text-blue-800 text-sm">恢复</button>
+                                        </div>
+                                        <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                                            <div>
+                                                <p class="font-medium text-sm">backup_2024-01-14_02-00-00.zip</p>
+                                                <p class="text-xs text-gray-500">2024-01-14 02:00:00 • 254MB</p>
+                                            </div>
+                                            <button class="text-blue-600 hover:text-blue-800 text-sm">恢复</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 系统日志 -->
+                    <div id="logs" class="hidden">
+                        <h3 class="text-lg font-semibold text-gray-800 mb-4">系统日志</h3>
+                        <div class="space-y-6">
+                            <!-- 日志查看 -->
+                            <div class="setting-card active bg-white border rounded-lg p-4">
+                                <h4 class="font-medium text-gray-800 mb-3">系统日志</h4>
+                                <div class="space-y-3">
+                                    <div class="flex items-center space-x-4">
+                                        <select class="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                            <option>全部级别</option>
+                                            <option>错误</option>
+                                            <option>警告</option>
+                                            <option>信息</option>
+                                            <option>调试</option>
+                                        </select>
+                                        <input type="date" class="border border-gray-300 rounded-lg px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 text-sm">查询</button>
+                                    </div>
+                                    <div class="bg-gray-900 text-green-400 p-4 rounded-lg font-mono text-sm" style="height: 300px; overflow-y: auto;">
+                                        <div>[2024-01-15 14:30:25] INFO: 系统启动成功</div>
+                                        <div>[2024-01-15 14:30:26] INFO: 数据库连接正常</div>
+                                        <div>[2024-01-15 14:30:27] INFO: AI服务初始化完成</div>
+                                        <div>[2024-01-15 14:30:28] INFO: WebSocket服务启动</div>
+                                        <div>[2024-01-15 14:30:29] INFO: 所有服务启动完成</div>
+                                        <div>[2024-01-15 14:31:15] INFO: 用户登录: admin@example.com</div>
+                                        <div>[2024-01-15 14:32:20] INFO: 新工单创建: #TK-20240115001</div>
+                                        <div>[2024-01-15 14:33:45] WARN: 数据库查询超时</div>
+                                        <div>[2024-01-15 14:34:10] ERROR: API调用失败: 网络连接超时</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 保存按钮 -->
+        <div class="mt-6 flex justify-end space-x-3">
+            <button class="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700">
+                取消
+            </button>
+            <button class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
+                保存设置
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 设置导航切换
+            const navLinks = document.querySelectorAll('nav a');
+            const contentDivs = document.querySelectorAll('#general, #security, #permissions, #integrations, #notifications, #backup, #logs');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有活动状态
+                    navLinks.forEach(l => {
+                        l.classList.remove('text-blue-600', 'bg-blue-50');
+                        l.classList.add('text-gray-600');
+                    });
+                    
+                    // 隐藏所有内容
+                    contentDivs.forEach(div => {
+                        div.classList.add('hidden');
+                    });
+                    
+                    // 添加当前活动状态
+                    this.classList.add('text-blue-600', 'bg-blue-50');
+                    this.classList.remove('text-gray-600');
+                    
+                    // 显示对应内容
+                    const targetId = this.getAttribute('href').substring(1);
+                    document.getElementById(targetId).classList.remove('hidden');
+                });
+            });
+
+            // 开关按钮效果
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const label = this.nextElementSibling;
+                    const dot = label.nextElementSibling;
+                    if (this.checked) {
+                        label.classList.add('bg-blue-600');
+                        label.classList.remove('bg-gray-200');
+                        dot.classList.add('translate-x-4');
+                    } else {
+                        label.classList.remove('bg-blue-600');
+                        label.classList.add('bg-gray-200');
+                        dot.classList.remove('translate-x-4');
+                    }
+                });
+            });
+
+            // 设置卡片悬停效果
+            const settingCards = document.querySelectorAll('.setting-card');
+            settingCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.classList.add('shadow-lg');
+                });
+                card.addEventListener('mouseleave', function() {
+                    this.classList.remove('shadow-lg');
+                });
+            });
+        });
+    </script>
+</body>
+</html> 
