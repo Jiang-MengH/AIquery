@@ -7,24 +7,40 @@
       :type="messageType"
       @close="hideMessage"
     />
+    <ConfirmDialog
+      v-if="showConfirm"
+      :visible="showConfirm"
+      :title="confirmData.title"
+      :message="confirmData.message"
+      :type="confirmData.type"
+      :confirm-text="confirmData.confirmText"
+      :cancel-text="confirmData.cancelText"
+      @confirm="handleConfirm"
+      @cancel="handleCancel"
+    />
   </div>
 </template>
 
 <script>
 import Layout from '@/components/Layout.vue'
 import Message from '@/components/Message.vue'
+import ConfirmDialog from '@/components/ConfirmDialog.vue'
 
 export default {
   name: 'App',
   components: {
     Layout,
-    Message
+    Message,
+    ConfirmDialog
   },
   data() {
     return {
       showMessage: false,
       messageText: '',
-      messageType: 'info'
+      messageType: 'info',
+      showConfirm: false,
+      confirmData: {},
+      confirmResolve: null
     }
   },
   mounted() {
@@ -35,6 +51,12 @@ export default {
       warning: (text) => this.showMessageFunc(text, 'warning'),
       info: (text) => this.showMessageFunc(text, 'info')
     }
+
+    // 监听确认对话框事件
+    window.addEventListener('show-confirm', this.handleShowConfirm)
+  },
+  beforeDestroy() {
+    window.removeEventListener('show-confirm', this.handleShowConfirm)
   },
   methods: {
     showMessageFunc(text, type) {
@@ -44,6 +66,32 @@ export default {
     },
     hideMessage() {
       this.showMessage = false
+    },
+    handleShowConfirm(event) {
+      const { resolve, ...data } = event.detail
+      this.confirmData = {
+        title: '确认操作',
+        type: 'warning',
+        confirmText: '确认',
+        cancelText: '取消',
+        ...data
+      }
+      this.confirmResolve = resolve
+      this.showConfirm = true
+    },
+    handleConfirm() {
+      this.showConfirm = false
+      if (this.confirmResolve) {
+        this.confirmResolve(true)
+        this.confirmResolve = null
+      }
+    },
+    handleCancel() {
+      this.showConfirm = false
+      if (this.confirmResolve) {
+        this.confirmResolve(false)
+        this.confirmResolve = null
+      }
     }
   }
 }

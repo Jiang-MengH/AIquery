@@ -1,17 +1,14 @@
 <template>
-  <div class="knowledge-qa">
+  <div class="knowledge-qa-enhanced">
     <!-- 页面头部 -->
     <div class="page-header">
       <div class="header-content">
         <h1 class="page-title">问答知识库</h1>
-        <p class="page-subtitle">智能问答知识管理与配置中心</p>
+        <p class="page-subtitle">管理和配置智能问答知识</p>
       </div>
       <div class="header-actions">
         <button class="btn-secondary" @click="showStatistics">
           <i class="fas fa-chart-bar mr-2"></i>数据统计
-        </button>
-        <button class="btn-secondary" @click="openSettings">
-          <i class="fas fa-cog mr-2"></i>配置中心
         </button>
         <button class="btn-primary" @click="showAddModal">
           <i class="fas fa-plus mr-2"></i>新增知识
@@ -28,7 +25,6 @@
         <div class="stat-content">
           <div class="stat-value">{{ statistics.totalEntries }}</div>
           <div class="stat-label">总条目数</div>
-          <div class="stat-trend positive">+12% 本月</div>
         </div>
       </div>
       <div class="stat-card">
@@ -38,7 +34,6 @@
         <div class="stat-content">
           <div class="stat-value">{{ statistics.totalViews }}</div>
           <div class="stat-label">总查看次数</div>
-          <div class="stat-trend positive">+8% 本周</div>
         </div>
       </div>
       <div class="stat-card">
@@ -48,7 +43,6 @@
         <div class="stat-content">
           <div class="stat-value">{{ statistics.avgAccuracy }}%</div>
           <div class="stat-label">平均准确率</div>
-          <div class="stat-trend positive">+2.5% 提升</div>
         </div>
       </div>
       <div class="stat-card">
@@ -58,27 +52,6 @@
         <div class="stat-content">
           <div class="stat-value">{{ statistics.avgRating }}/5</div>
           <div class="stat-label">用户满意度</div>
-          <div class="stat-trend positive">+0.3 提升</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-clock"></i>
-        </div>
-        <div class="stat-content">
-          <div class="stat-value">{{ statistics.avgResponseTime }}s</div>
-          <div class="stat-label">平均响应时间</div>
-          <div class="stat-trend negative">-0.5s 优化</div>
-        </div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-icon">
-          <i class="fas fa-users"></i>
-        </div>
-        <div class="stat-content">
-          <div class="stat-value">{{ statistics.activeUsers }}</div>
-          <div class="stat-label">活跃用户数</div>
-          <div class="stat-trend positive">+15% 增长</div>
         </div>
       </div>
     </div>
@@ -90,13 +63,10 @@
           <i class="fas fa-search"></i>
           <input 
             type="text" 
-            placeholder="搜索问题、答案或关键词..." 
+            placeholder="搜索知识条目..." 
             v-model="searchKeyword"
             @input="handleSearch"
           >
-          <button class="search-advanced" @click="openAdvancedSearch">
-            <i class="fas fa-filter"></i>
-          </button>
         </div>
         <div class="filter-dropdown">
           <select v-model="selectedStatus" @change="handleFilter">
@@ -104,15 +74,6 @@
             <option value="active">已启用</option>
             <option value="inactive">已禁用</option>
             <option value="draft">草稿</option>
-            <option value="pending">待审核</option>
-          </select>
-        </div>
-        <div class="filter-dropdown">
-          <select v-model="selectedPriority" @change="handleFilter">
-            <option value="">全部优先级</option>
-            <option value="high">高优先级</option>
-            <option value="medium">中优先级</option>
-            <option value="low">低优先级</option>
           </select>
         </div>
       </div>
@@ -126,9 +87,6 @@
         </button>
         <button class="btn-secondary" @click="batchOperation" :disabled="!hasSelectedItems">
           <i class="fas fa-tasks mr-2"></i>批量操作
-        </button>
-        <button class="btn-secondary" @click="openQuickAdd">
-          <i class="fas fa-plus mr-2"></i>快速添加
         </button>
       </div>
     </div>
@@ -178,31 +136,17 @@
         
         <div class="item-content">
           <div class="item-header">
-            <div class="item-title-section">
-              <h3 class="item-title">{{ item.title }}</h3>
-              <div class="item-priority">
-                <i class="fas fa-star" v-for="star in 5" :key="star" 
-                   :class="{ active: star <= item.priority }"></i>
-              </div>
-            </div>
+            <h3 class="item-title">{{ item.title }}</h3>
             <div class="item-badges">
               <span class="badge badge-info">{{ item.category }}</span>
               <span class="badge" :class="getStatusBadgeClass(item.status)">
                 {{ getStatusText(item.status) }}
-              </span>
-              <span class="badge badge-success" v-if="item.autoReply">
-                <i class="fas fa-robot mr-1"></i>自动回复
               </span>
             </div>
           </div>
           
           <div class="item-description">
             <p>{{ item.description }}</p>
-            <div class="item-keywords" v-if="item.keywords && item.keywords.length">
-              <span class="keyword-tag" v-for="keyword in item.keywords" :key="keyword">
-                {{ keyword }}
-              </span>
-            </div>
           </div>
           
           <div class="item-meta">
@@ -215,16 +159,8 @@
               准确率: {{ item.accuracy }}%
             </span>
             <span class="meta-item">
-              <i class="fas fa-thumbs-up"></i>
-              满意度: {{ item.satisfaction || 0 }}%
-            </span>
-            <span class="meta-item">
               <i class="fas fa-clock"></i>
               更新: {{ formatDate(item.updateTime) }}
-            </span>
-            <span class="meta-item">
-              <i class="fas fa-user"></i>
-              创建者: {{ item.createdBy || '系统' }}
             </span>
           </div>
         </div>
@@ -236,11 +172,8 @@
           <button class="btn-sm btn-primary" @click="testItem(item)" title="测试">
             <i class="fas fa-play"></i>
           </button>
-          <button class="btn-sm btn-info" @click="previewItem(item)" title="预览">
+          <button class="btn-sm btn-warning" @click="previewItem(item)" title="预览">
             <i class="fas fa-eye"></i>
-          </button>
-          <button class="btn-sm btn-warning" @click="duplicateItem(item)" title="复制">
-            <i class="fas fa-copy"></i>
           </button>
           <button class="btn-sm btn-error" @click="deleteItem(item)" title="删除">
             <i class="fas fa-trash"></i>
@@ -338,32 +271,6 @@
                   </div>
                 </div>
               </div>
-              
-              <div class="form-group">
-                <label class="form-label">关键词标签</label>
-                <div class="keyword-input">
-                  <input 
-                    type="text" 
-                    class="form-input" 
-                    v-model="newKeyword"
-                    placeholder="输入关键词后按回车添加"
-                    @keyup.enter="addKeyword"
-                  >
-                  <button type="button" class="btn-sm btn-secondary" @click="addKeyword">
-                    <i class="fas fa-plus"></i>
-                  </button>
-                </div>
-                <div class="keyword-tags" v-if="formData.keywords.length">
-                  <span 
-                    v-for="(keyword, index) in formData.keywords" 
-                    :key="index"
-                    class="keyword-tag"
-                  >
-                    {{ keyword }}
-                    <i class="fas fa-times" @click="removeKeyword(index)"></i>
-                  </span>
-                </div>
-              </div>
             </div>
             
             <div class="form-section">
@@ -393,16 +300,6 @@
                   </div>
                 </div>
               </div>
-              
-              <div class="form-group">
-                <label class="form-label">触发条件</label>
-                <textarea 
-                  class="form-textarea" 
-                  v-model="formData.conditions"
-                  placeholder="描述触发此知识条目的条件（可选）"
-                  rows="3"
-                ></textarea>
-              </div>
             </div>
           </form>
         </div>
@@ -414,30 +311,17 @@
         </div>
       </div>
     </div>
-    
-    <!-- 配置窗口 -->
-    <div class="modal-overlay" v-if="showSettings" @click="closeSettings">
-      <div class="modal-content" @click.stop>
-        <KnowledgeConfig @close="closeSettings" />
-      </div>
-    </div>
   </div>
 </template>
 
 <script>
-import KnowledgeConfig from '@/components/KnowledgeConfig.vue'
-
 export default {
-  name: 'KnowledgeQA',
-  components: {
-    KnowledgeConfig
-  },
+  name: 'KnowledgeQAEnhanced',
   data() {
     return {
       // 搜索和筛选
       searchKeyword: '',
       selectedStatus: '',
-      selectedPriority: '',
       activeCategory: 'all',
       
       // 分页
@@ -451,9 +335,6 @@ export default {
       showModal: false,
       isEditing: false,
       showStats: false,
-      showSettings: false,
-      showAdvancedSearch: false,
-      showQuickAdd: false,
       
       // 表单数据
       formData: {
@@ -462,14 +343,8 @@ export default {
         category: '',
         priority: 3,
         isActive: true,
-        autoReply: false,
-        keywords: [],
-        conditions: '',
-        tags: []
+        autoReply: false
       },
-      
-      // 新关键词输入
-      newKeyword: '',
       
       // 加载状态
       loading: false,
@@ -479,9 +354,7 @@ export default {
         totalEntries: 208,
         totalViews: 15680,
         avgAccuracy: 92.5,
-        avgRating: 4.2,
-        avgResponseTime: 1.2,
-        activeUsers: 1250
+        avgRating: 4.2
       },
       
       // 分类数据
@@ -505,14 +378,9 @@ export default {
           description: '包含退款申请、修改退款信息、无法申请退款等相关内容',
           viewCount: 156,
           accuracy: 94,
-          satisfaction: 92,
           updateTime: '2024-01-15 14:30',
           status: 'active',
-          priority: 5,
-          autoReply: true,
-          keywords: ['退款', '申请', '流程'],
-          createdBy: '张三',
-          tags: ['热门', '重要']
+          priority: 5
         },
         {
           id: 2,
@@ -521,14 +389,9 @@ export default {
           description: '发票金额、发票进度查询、发票信息反馈等相关内容',
           viewCount: 89,
           accuracy: 92,
-          satisfaction: 88,
           updateTime: '2024-01-15 12:15',
           status: 'active',
-          priority: 4,
-          autoReply: false,
-          keywords: ['发票', '开具', '查询'],
-          createdBy: '李四',
-          tags: ['常用']
+          priority: 4
         },
         {
           id: 3,
@@ -537,30 +400,9 @@ export default {
           description: '安装教程、安装服务、安装网点等相关内容',
           viewCount: 67,
           accuracy: 88,
-          satisfaction: 85,
           updateTime: '2024-01-14 18:45',
           status: 'draft',
-          priority: 3,
-          autoReply: false,
-          keywords: ['安装', '服务', '网点'],
-          createdBy: '王五',
-          tags: ['新功能']
-        },
-        {
-          id: 4,
-          title: '商品退换货政策',
-          category: '售后问题',
-          description: '详细说明商品退换货的条件、流程和注意事项',
-          viewCount: 234,
-          accuracy: 96,
-          satisfaction: 94,
-          updateTime: '2024-01-16 09:20',
-          status: 'active',
-          priority: 5,
-          autoReply: true,
-          keywords: ['退换货', '政策', '条件'],
-          createdBy: '系统',
-          tags: ['热门', '重要', '推荐']
+          priority: 3
         }
       ]
     }
@@ -579,25 +421,11 @@ export default {
         items = items.filter(item => item.status === this.selectedStatus)
       }
       
-      // 按优先级筛选
-      if (this.selectedPriority) {
-        const priorityMap = {
-          'high': 5,
-          'medium': 3,
-          'low': 1
-        }
-        const targetPriority = priorityMap[this.selectedPriority]
-        items = items.filter(item => item.priority >= targetPriority)
-      }
-      
       // 按关键词搜索
       if (this.searchKeyword) {
         items = items.filter(item => 
           item.title.toLowerCase().includes(this.searchKeyword.toLowerCase()) ||
-          item.description.toLowerCase().includes(this.searchKeyword.toLowerCase()) ||
-          (item.keywords && item.keywords.some(keyword => 
-            keyword.toLowerCase().includes(this.searchKeyword.toLowerCase())
-          ))
+          item.description.toLowerCase().includes(this.searchKeyword.toLowerCase())
         )
       }
       
@@ -697,12 +525,8 @@ export default {
         category: '',
         priority: 3,
         isActive: true,
-        autoReply: false,
-        keywords: [],
-        conditions: '',
-        tags: []
+        autoReply: false
       }
-      this.newKeyword = ''
     },
     
     // 表单操作
@@ -804,54 +628,6 @@ export default {
       this.showStats = !this.showStats
     },
     
-    // 配置中心
-    openSettings() {
-      this.showSettings = true
-    },
-    
-    closeSettings() {
-      this.showSettings = false
-    },
-    
-    // 高级搜索
-    openAdvancedSearch() {
-      this.showAdvancedSearch = true
-      this.$message.info('高级搜索功能开发中...')
-    },
-    
-    // 快速添加
-    openQuickAdd() {
-      this.showQuickAdd = true
-      this.$message.info('快速添加功能开发中...')
-    },
-    
-    // 复制条目
-    duplicateItem(item) {
-      const newItem = {
-        ...item,
-        id: Date.now(),
-        title: `${item.title} (副本)`,
-        status: 'draft',
-        updateTime: new Date().toLocaleString('zh-CN')
-      }
-      this.knowledgeItems.unshift(newItem)
-      this.$message.success('复制成功')
-    },
-    
-    // 关键词管理
-    addKeyword() {
-      if (this.newKeyword.trim()) {
-        if (!this.formData.keywords.includes(this.newKeyword.trim())) {
-          this.formData.keywords.push(this.newKeyword.trim())
-        }
-        this.newKeyword = ''
-      }
-    },
-    
-    removeKeyword(index) {
-      this.formData.keywords.splice(index, 1)
-    },
-    
     // 工具方法
     formatDate(dateString) {
       return new Date(dateString).toLocaleDateString('zh-CN')
@@ -879,7 +655,7 @@ export default {
 </script>
 
 <style scoped>
-.knowledge-qa {
+.knowledge-qa-enhanced {
   max-width: 1400px;
   margin: 0 auto;
   padding: 1rem;
@@ -962,20 +738,6 @@ export default {
   margin-top: 0.25rem;
 }
 
-.stat-trend {
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  font-weight: 500;
-}
-
-.stat-trend.positive {
-  color: #059669;
-}
-
-.stat-trend.negative {
-  color: #dc2626;
-}
-
 /* 操作栏 */
 .action-bar {
   display: flex;
@@ -1009,39 +771,12 @@ export default {
   color: #9ca3af;
 }
 
-.search-box {
-  position: relative;
-  flex: 1;
-  max-width: 400px;
-  display: flex;
-  align-items: center;
-}
-
 .search-box input {
   width: 100%;
   padding: 0.75rem 1rem 0.75rem 2.5rem;
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   font-size: 0.875rem;
-}
-
-.search-advanced {
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  border: none;
-  color: #6b7280;
-  cursor: pointer;
-  padding: 0.25rem;
-  border-radius: 0.25rem;
-  transition: all 0.2s ease;
-}
-
-.search-advanced:hover {
-  background: #f3f4f6;
-  color: #374151;
 }
 
 .filter-dropdown select {
@@ -1191,34 +926,12 @@ export default {
   gap: 1rem;
 }
 
-.item-title-section {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex: 1;
-}
-
 .item-title {
   font-size: 1.125rem;
   font-weight: 600;
   color: #1f2937;
   margin: 0;
   flex: 1;
-}
-
-.item-priority {
-  display: flex;
-  gap: 0.125rem;
-}
-
-.item-priority i {
-  color: #d1d5db;
-  font-size: 0.875rem;
-  transition: color 0.2s ease;
-}
-
-.item-priority i.active {
-  color: #f59e0b;
 }
 
 .item-badges {
@@ -1258,22 +971,6 @@ export default {
   font-size: 0.875rem;
   line-height: 1.5;
   margin: 0;
-  margin-bottom: 0.5rem;
-}
-
-.item-keywords {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.25rem;
-}
-
-.keyword-tag {
-  background: #f3f4f6;
-  color: #374151;
-  padding: 0.125rem 0.375rem;
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  border: 1px solid #e5e7eb;
 }
 
 .item-meta {
@@ -1318,11 +1015,6 @@ export default {
 
 .btn-sm.btn-primary {
   background: #2563eb;
-  color: #fff;
-}
-
-.btn-sm.btn-info {
-  background: #06b6d4;
   color: #fff;
 }
 
@@ -1482,45 +1174,6 @@ export default {
   min-height: 120px;
 }
 
-.keyword-input {
-  display: flex;
-  gap: 0.5rem;
-  align-items: center;
-}
-
-.keyword-input .form-input {
-  flex: 1;
-}
-
-.keyword-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-}
-
-.keyword-tag {
-  background: #f3f4f6;
-  color: #374151;
-  padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem;
-  font-size: 0.75rem;
-  border: 1px solid #e5e7eb;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-.keyword-tag i {
-  cursor: pointer;
-  color: #6b7280;
-  font-size: 0.625rem;
-}
-
-.keyword-tag i:hover {
-  color: #ef4444;
-}
-
 /* 优先级星星 */
 .priority-stars {
   display: flex;
@@ -1590,7 +1243,7 @@ export default {
 
 /* 响应式设计 */
 @media (max-width: 768px) {
-  .knowledge-qa {
+  .knowledge-qa-enhanced {
     padding: 0.5rem;
   }
   
@@ -1647,16 +1300,6 @@ export default {
     flex-direction: column;
     align-items: flex-start;
     gap: 0.5rem;
-  }
-  
-  .item-title-section {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-  
-  .item-priority {
-    align-self: flex-start;
   }
   
   .item-meta {

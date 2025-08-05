@@ -7,8 +7,11 @@
         <p class="welcome-subtitle">今日有 {{ statistics.todaySessions }} 个会话需要关注，AI 已自动处理 89% 的咨询</p>
       </div>
       <div class="welcome-actions">
-        <button class="btn-primary" @click="handleQuickAction">
+        <button class="btn-primary" @click="handleQuickAction" :disabled="loading">
           <i class="fas fa-plus mr-2"></i>快速处理
+        </button>
+        <button class="btn-secondary" @click="refreshData" :disabled="loading">
+          <i class="fas fa-sync mr-2" :class="{ 'fa-spin': loading }"></i>刷新数据
         </button>
       </div>
     </div>
@@ -210,6 +213,7 @@ export default {
   name: 'Dashboard',
   data() {
     return {
+      loading: false,
       // 统计卡片数据
       statsCards: [
         {
@@ -321,8 +325,29 @@ export default {
     },
     
     // 快速处理
-    handleQuickAction() {
-      this.$message.success('开始快速处理...')
+    async handleQuickAction() {
+      try {
+        this.loading = true
+        await new Promise(resolve => setTimeout(resolve, 2000))
+        this.$message.success('快速处理完成！')
+      } catch (error) {
+        this.$message.error('处理失败，请重试')
+      } finally {
+        this.loading = false
+      }
+    },
+    
+    // 刷新数据
+    async refreshData() {
+      try {
+        this.loading = true
+        await new Promise(resolve => setTimeout(resolve, 1500))
+        this.$message.success('数据已刷新')
+      } catch (error) {
+        this.$message.error('刷新失败，请重试')
+      } finally {
+        this.loading = false
+      }
     },
     
     // 刷新平台状态
