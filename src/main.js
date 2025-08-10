@@ -3,11 +3,19 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import interaction from './utils/interaction.js'
+import axios from 'axios'
 
 // 引入Font Awesome
 import '@fortawesome/fontawesome-free/css/all.css'
 
 Vue.config.productionTip = false
+
+// 配置axios
+Vue.prototype.$http = axios
+// 统一使用代理路径，避免端口冲突
+axios.defaults.baseURL = process.env.NODE_ENV === 'production' ? '' : '/api'
+axios.defaults.timeout = 10000
+axios.defaults.headers.common['Content-Type'] = 'application/json'
 
 // 注册全局交互工具
 Vue.prototype.$interaction = interaction
